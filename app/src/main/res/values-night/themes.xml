@@ -1,0 +1,8 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.IdleMicra" parent="Theme.Design.NoActionBar">
+        <item name="android:forceDarkAllowed" tools:targetApi="q">false</item>
+        <!--<item name="android:windowTranslucentStatus">true</item>-->
+
+    </style>
+</resources>
