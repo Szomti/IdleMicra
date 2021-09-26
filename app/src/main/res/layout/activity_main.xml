@@ -207,10 +207,56 @@
             android:text="Player"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.977" />
+            app:layout_constraintVertical_bias="0.89" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/page_change"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/change_main_page"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintEnd_toEndOf="@id/change_money_page"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/change_money_page"
+            app:layout_constraintBottom_toBottomOf="@id/change_money_page"
+            app:srcCompat="@drawable/test_element" />
+
+        <ImageView
+            android:id="@+id/change_money_page"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            app:layout_constraintVertical_bias="1"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:srcCompat="@drawable/test_element" />
+
+        <ImageView
+            android:id="@+id/change_skill_page"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/change_money_page"
+            app:layout_constraintTop_toTopOf="@id/change_money_page"
+            app:layout_constraintBottom_toBottomOf="@id/change_money_page"
+            app:srcCompat="@drawable/test_element" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

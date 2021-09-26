@@ -79,7 +79,7 @@ class MainActivity : AppCompatActivity() {
         // Iron
         var ironAmount = 0
         var ironExtraction = 1
-        var ironProgressMax = 50000
+        var ironProgressMax = 40000
         var ironProgress = 50
         var ironBonus = 10
         var ironManager = false
