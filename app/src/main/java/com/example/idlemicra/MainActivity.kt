@@ -61,7 +61,7 @@ class MainActivity : AppCompatActivity() {
         // Stone
         var stoneAmount = 0
         var stoneExtraction = 1
-        var stoneProgressMax = 12000
+        var stoneProgressMax = 10000
         var stoneProgress = 50
         var stoneBonus = 10
         var stoneManager = false
@@ -70,7 +70,7 @@ class MainActivity : AppCompatActivity() {
         // Silver
         var silverAmount = 0
         var silverExtraction = 1
-        var silverProgressMax = 36000
+        var silverProgressMax = 20000
         var silverProgress = 50
         var silverBonus = 10
         var silverManager = false
@@ -79,7 +79,7 @@ class MainActivity : AppCompatActivity() {
         // Iron
         var ironAmount = 0
         var ironExtraction = 1
-        var ironProgressMax = 108000
+        var ironProgressMax = 50000
         var ironProgress = 50
         var ironBonus = 10
         var ironManager = false
@@ -88,7 +88,7 @@ class MainActivity : AppCompatActivity() {
         var x : Double? = 0.0
         var y : Double? = 0.0
 
-        fun saveData(){
+        fun saveData() {
             val sharedPreferences: SharedPreferences = getSharedPreferences("sharedPrefs", MODE_PRIVATE)
             val editor: SharedPreferences.Editor = sharedPreferences.edit()
             editor.apply{
@@ -96,6 +96,12 @@ class MainActivity : AppCompatActivity() {
                 putInt("SILVER_AMOUNT_KEY", silverAmount)
                 putInt("IRON_AMOUNT_KEY", ironAmount)
             }.apply()
+        }
+
+        fun setProgressMax() {
+            main_stone_progress.max = stoneProgressMax
+            main_silver_progress.max = silverProgressMax
+            main_iron_progress.max = ironProgressMax
         }
 
         fun loadText() {
@@ -114,6 +120,7 @@ class MainActivity : AppCompatActivity() {
             silverAmount = savedSilverAmount
             ironAmount = savedIronAmount
 
+            setProgressMax()
             loadText()
             dataLoaded = true
         }
