@@ -354,7 +354,7 @@
             app:srcCompat="@drawable/btn_dark_grey_border" />
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/money_amount_text"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:textColor="@color/white"

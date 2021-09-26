@@ -56,6 +56,11 @@ class MainActivity : AppCompatActivity() {
         // Dev
         var managerChange: Boolean
 
+        // Money Page
+        var moneyAmount = 0
+        var totalMaterials = 0
+        var totalPriceMaterials = 0
+
         // Main Page
 
         // Stone
@@ -66,6 +71,8 @@ class MainActivity : AppCompatActivity() {
         var stoneBonus = 10
         var stoneManager = false
         var stoneManagerFirst = true
+        var stonePrice = 1
+        var stoneLocked = false
 
         // Silver
         var silverAmount = 0
@@ -75,6 +82,8 @@ class MainActivity : AppCompatActivity() {
         var silverBonus = 10
         var silverManager = false
         var silverManagerFirst = true
+        var silverPrice = 5
+        var silverLocked = false
 
         // Iron
         var ironAmount = 0
@@ -84,6 +93,8 @@ class MainActivity : AppCompatActivity() {
         var ironBonus = 10
         var ironManager = false
         var ironManagerFirst = true
+        var ironPrice = 25
+        var ironLocked = false
 
         var x : Double? = 0.0
         var y : Double? = 0.0
@@ -93,35 +104,59 @@ class MainActivity : AppCompatActivity() {
             val editor: SharedPreferences.Editor = sharedPreferences.edit()
             editor.apply{
                 putInt("STONE_AMOUNT_KEY", stoneAmount)
+                putInt("MONEY_AMOUNT_KEY", moneyAmount)
                 putInt("SILVER_AMOUNT_KEY", silverAmount)
                 putInt("IRON_AMOUNT_KEY", ironAmount)
             }.apply()
         }
 
-        fun setProgressMax() {
+        fun setMaxProgress() {
             main_stone_progress.max = stoneProgressMax
             main_silver_progress.max = silverProgressMax
             main_iron_progress.max = ironProgressMax
         }
 
         fun loadText() {
-            main_stone_btn.text = "Stone\n$stoneAmount"
-            money_stone_amount.text = "Stone\n$stoneAmount"
-            main_silver_btn.text = "Silver\n$silverAmount"
-            main_iron_btn.text = "Iron\n$ironAmount"
+            if(money_page.visibility == View.VISIBLE){
+                totalMaterials = 0
+                totalPriceMaterials = 0
+                if(!stoneLocked){
+                    totalMaterials += stoneAmount
+                    totalPriceMaterials += (stoneAmount*stonePrice)
+                }
+                if(!silverLocked){
+                    totalMaterials += silverAmount
+                    totalPriceMaterials += (silverAmount*silverPrice)
+                }
+                if(!ironLocked){
+                    totalMaterials += ironAmount
+                    totalPriceMaterials += (ironAmount*ironPrice)
+                }
+                money_amount_text.text = "Money: $moneyAmount"
+                sell_materials_btn.text = "Sell Materials\nTotal: $totalMaterials\nGain: $totalPriceMaterials"
+                money_stone_amount.text = "Stone\n$stoneAmount"
+                money_stone_price.text = "Price\n$stonePrice"
+            }
+            if(main_page.visibility == View.VISIBLE) {
+                main_stone_btn.text = "Stone\n$stoneAmount"
+                main_silver_btn.text = "Silver\n$silverAmount"
+                main_iron_btn.text = "Iron\n$ironAmount"
+            }
         }
 
         fun loadData() {
             val sharedPreferences: SharedPreferences = getSharedPreferences("sharedPrefs", MODE_PRIVATE)
             val savedStoneAmount: Int = sharedPreferences.getInt("STONE_AMOUNT_KEY", stoneAmount)
+            val savedMoneyAmount: Int = sharedPreferences.getInt("MONEY_AMOUNT_KEY", moneyAmount)
             val savedSilverAmount: Int = sharedPreferences.getInt("SILVER_AMOUNT_KEY", silverAmount)
             val savedIronAmount: Int = sharedPreferences.getInt("IRON_AMOUNT_KEY", ironAmount)
 
             stoneAmount = savedStoneAmount
+            moneyAmount = savedMoneyAmount
             silverAmount = savedSilverAmount
             ironAmount = savedIronAmount
 
-            setProgressMax()
+            setMaxProgress()
             loadText()
             dataLoaded = true
         }
@@ -172,18 +207,17 @@ class MainActivity : AppCompatActivity() {
                     if (main_stone_progress.progress >= stoneProgressMax && stoneAmount <= MAX_VALUE) {
                         stoneAmount += stoneExtraction
                         main_stone_progress.progress = 0
-                        main_stone_btn.text = "Stone\n$stoneAmount"
-                        money_stone_amount.text = "Stone\n$stoneAmount"
+                        loadText()
                     }
                     if (main_silver_progress.progress >= silverProgressMax && silverAmount <= MAX_VALUE) {
                         silverAmount += silverExtraction
                         main_silver_progress.progress = 0
-                        main_silver_btn.text = "silver\n$silverAmount"
+                        loadText()
                     }
                     if (main_iron_progress.progress >= ironProgressMax && ironAmount <= MAX_VALUE) {
                         ironAmount += ironExtraction
                         main_iron_progress.progress = 0
-                        main_iron_btn.text = "iron\n$ironAmount"
+                        loadText()
                     }
                     test_dev_text.text = main_page_content.y.toString()
                 }
@@ -233,6 +267,7 @@ class MainActivity : AppCompatActivity() {
         fun mainPage() {
             loading_page.visibility = View.GONE
             main_page.visibility = View.VISIBLE
+            loadText()
             main_stone_btn.setOnClickListener {
                 main_stone_progress.progress += (stoneProgress * stoneBonus)
             }
@@ -247,10 +282,21 @@ class MainActivity : AppCompatActivity() {
         fun moneyPage() {
             loadText()
             sell_materials_btn.setOnClickListener {
-
+                if(!stoneLocked){
+                    moneyAmount += (stoneAmount*stonePrice)
+                    stoneAmount = 0
+                    loadText()
+                }
             }
             sell_stone_btn.setOnClickListener {
-
+                if(stoneLocked){
+                    stoneLocked = false
+                    sell_stone_btn.setBackgroundResource(R.drawable.btn_grey)
+                }else{
+                    stoneLocked = true
+                    sell_stone_btn.setBackgroundResource(R.drawable.btn_locked_material)
+                }
+                loadText()
             }
         }
 
@@ -383,6 +429,9 @@ class MainActivity : AppCompatActivity() {
         fun resetJob() {
             loadingPage()
             dev_switch.isChecked = false
+
+            moneyAmount = 0
+
             stoneAmount = 0
             main_stone_progress.progress = 0
             stoneManager = false
