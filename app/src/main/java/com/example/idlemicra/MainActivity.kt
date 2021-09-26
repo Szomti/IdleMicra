@@ -126,21 +126,23 @@ class MainActivity : AppCompatActivity() {
         }
 
         main_page_content.setOnTouchListener { v, event ->
-            when (event.action) {
-                MotionEvent.ACTION_DOWN -> {
-                    x = main_page_content.x.toDouble() - event.rawX
-                    y = main_page_content.y.toDouble() - event.rawY
-                }
-                MotionEvent.ACTION_MOVE -> {
-                    if(event.rawY + y!!.toInt() <= 40 && event.rawY + y!!.toInt() >= -2300) {
-                        main_page_content.y = event.rawY + y!!.toInt()
+            if(main_page.visibility == View.VISIBLE) {
+                when (event.action) {
+                    MotionEvent.ACTION_DOWN -> {
+                        x = main_page_content.x.toDouble() - event.rawX
+                        y = main_page_content.y.toDouble() - event.rawY
                     }
+                    MotionEvent.ACTION_MOVE -> {
+                        if (event.rawY + y!!.toInt() <= 40 && event.rawY + y!!.toInt() >= -2300) {
+                            main_page_content.y = event.rawY + y!!.toInt()
+                        }
 //                    if(main_page_content.y>0 || main_page_content.y<=0 && main_page_content.y>=-10){
 //                        main_page_content.y = 0F
 //                    }
 //                    if(main_page_content.y<-2260 || main_page_content.y>=-2250 && main_page_content.y<=-2260){
 //                        main_page_content.y = -2260F
 //                    }
+                    }
                 }
             }
 
@@ -240,10 +242,38 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        fun pageChange() {
+            page_change.visibility = View.VISIBLE
+            change_main_page.setOnClickListener {
+                if(main_page.visibility != View.VISIBLE) {
+                    main_page.visibility = View.VISIBLE
+                    money_page.visibility = View.GONE
+                    skill_page.visibility = View.GONE
+                }
+            }
+            change_money_page.setOnClickListener {
+                if(money_page.visibility != View.VISIBLE) {
+                    main_page.visibility = View.GONE
+                    money_page.visibility = View.VISIBLE
+                    skill_page.visibility = View.GONE
+                }
+            }
+            change_skill_page.setOnClickListener {
+                if(skill_page.visibility != View.VISIBLE) {
+                    main_page.visibility = View.GONE
+                    money_page.visibility = View.GONE
+                    skill_page.visibility = View.VISIBLE
+                }
+            }
+        }
+
         fun loadingPage() {
             loading_page.visibility = View.VISIBLE
             main_page.visibility = View.GONE
+            money_page.visibility = View.GONE
+            skill_page.visibility = View.GONE
             dev_page.visibility = View.GONE
+            page_change.visibility = View.GONE
             loading_progress.progress = 0
             loadingStatus = true
             gameStart = false
@@ -321,6 +351,7 @@ class MainActivity : AppCompatActivity() {
                             loading_continue_text.visibility = View.VISIBLE
                             loading_page.setOnClickListener {
                                 mainPage()
+                                pageChange()
                                 loading_text.text = "Loading"
                                 loading_continue_text.visibility = View.INVISIBLE
                                 loading_page.setOnClickListener(null)
