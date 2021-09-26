@@ -341,6 +341,32 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+        <ImageView
+            android:id="@+id/money_info"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintVertical_bias="0.0"
+            app:srcCompat="@drawable/btn_dark_grey_border" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textSize="17dp"
+            android:text="Money: 0"
+            android:textAlignment="textStart"
+            app:layout_constraintHorizontal_bias="0.08"
+            app:layout_constraintBottom_toBottomOf="@+id/money_info"
+            app:layout_constraintEnd_toEndOf="@+id/money_info"
+            app:layout_constraintStart_toStartOf="@+id/money_info"
+            app:layout_constraintTop_toTopOf="@+id/money_info" />
+
         <Button
             android:id="@+id/sell_materials_btn"
             android:layout_width="match_parent"
@@ -348,9 +374,9 @@
             android:background="@drawable/btn_dark_grey"
             android:textColor="@color/white"
             android:stateListAnimator="@null"
-            android:textSize="15dp"
-            android:text="Sell Materials"
-            app:layout_constraintTop_toTopOf="parent"
+            android:textSize="17dp"
+            android:text="Sell Materials\nTotal: 0\nGain: 0"
+            app:layout_constraintTop_toBottomOf="@id/money_info"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
