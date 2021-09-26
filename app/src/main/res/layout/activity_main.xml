@@ -264,7 +264,7 @@
         android:id="@+id/dev_page"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:visibility="gone"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -282,7 +282,7 @@
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.937" />
+            app:layout_constraintVertical_bias="0.825" />
 
         <Button
             android:id="@+id/manager_btn"
@@ -296,7 +296,7 @@
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/reset_btn"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.937" />
+            app:layout_constraintVertical_bias="0.825" />
 
         <Button
             android:id="@+id/manager_change_btn"
@@ -310,7 +310,7 @@
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="@id/manager_btn"
             app:layout_constraintTop_toBottomOf="@id/manager_btn"
-            app:layout_constraintVertical_bias="0.5" />
+            app:layout_constraintVertical_bias="0" />
 
         <TextView
             android:id="@+id/test_dev_text"
