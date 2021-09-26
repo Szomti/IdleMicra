@@ -132,10 +132,15 @@ class MainActivity : AppCompatActivity() {
                     y = main_page_content.y.toDouble() - event.rawY
                 }
                 MotionEvent.ACTION_MOVE -> {
-                    if(event.rawY + y!!.toInt() <= 0.0 && event.rawY + y!!.toInt() >= -2260) {
+                    if(event.rawY + y!!.toInt() <= 40 && event.rawY + y!!.toInt() >= -2300) {
                         main_page_content.y = event.rawY + y!!.toInt()
-                    }else{
                     }
+//                    if(main_page_content.y>0 || main_page_content.y<=0 && main_page_content.y>=-10){
+//                        main_page_content.y = 0F
+//                    }
+//                    if(main_page_content.y<-2260 || main_page_content.y>=-2250 && main_page_content.y<=-2260){
+//                        main_page_content.y = -2260F
+//                    }
                 }
             }
 
@@ -179,6 +184,34 @@ class MainActivity : AppCompatActivity() {
                     test_dev_text.text = main_page_content.y.toString()
                 }
                 delay(20L)
+            }
+        }
+
+        val screenFix = lifecycleScope.launch(Dispatchers.IO) {
+            while (isActive) {
+                lifecycleScope.launch {
+                    if(main_page_content.y>0 && main_page_content.y!=0F){
+                        main_page_content.y-=2
+                        if(main_page_content.y<=0 && main_page_content.y>=-10){
+                            main_page_content.y = 0F
+                        }
+                    }else{
+                        if(main_page_content.y<=0 && main_page_content.y>=-5){
+                            main_page_content.y = 0F
+                        }
+                    }
+                    if(main_page_content.y<-2260 && main_page_content.y!=-2260F){
+                        main_page_content.y+=2
+                        if(main_page_content.y>=-2250 && main_page_content.y<=-2260){
+                            main_page_content.y = -2260F
+                        }
+                    }else{
+                        if(main_page_content.y>=-2255 && main_page_content.y<=-2260){
+                            main_page_content.y = -2260F
+                        }
+                    }
+                }
+                delay(35L)
             }
         }
 
@@ -326,24 +359,21 @@ class MainActivity : AppCompatActivity() {
                     if (!stoneManagerFirst && stoneManager) {
                         stoneManagerFirst = true
                     }
-                    Toast.makeText(this, "Stone - State: " + stoneManager.toString(), Toast.LENGTH_SHORT)
-                        .show()
+                    Toast.makeText(this, "Stone - State: " + stoneManager.toString(), Toast.LENGTH_SHORT).show()
                 }
                 if(manager_change_btn.text == "silver") {
                     silverManager = !silverManager
                     if (!silverManagerFirst && silverManager) {
                         silverManagerFirst = true
                     }
-                    Toast.makeText(this, "Silver - State: " + silverManager.toString(), Toast.LENGTH_SHORT)
-                        .show()
+                    Toast.makeText(this, "Silver - State: " + silverManager.toString(), Toast.LENGTH_SHORT).show()
                 }
                 if(manager_change_btn.text == "iron") {
                     ironManager = !ironManager
                     if (!ironManagerFirst && ironManager) {
                         ironManagerFirst = true
                     }
-                    Toast.makeText(this, "Iron - State: " + ironManager.toString(), Toast.LENGTH_SHORT)
-                        .show()
+                    Toast.makeText(this, "Iron - State: " + ironManager.toString(), Toast.LENGTH_SHORT).show()
                 }
             }
             manager_change_btn.setOnClickListener {
