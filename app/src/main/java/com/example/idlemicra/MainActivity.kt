@@ -106,6 +106,7 @@ class MainActivity : AppCompatActivity() {
 
         fun loadText() {
             main_stone_btn.text = "Stone\n$stoneAmount"
+            money_stone_amount.text = "Stone\n$stoneAmount"
             main_silver_btn.text = "Silver\n$silverAmount"
             main_iron_btn.text = "Iron\n$ironAmount"
         }
@@ -172,6 +173,7 @@ class MainActivity : AppCompatActivity() {
                         stoneAmount += stoneExtraction
                         main_stone_progress.progress = 0
                         main_stone_btn.text = "Stone\n$stoneAmount"
+                        money_stone_amount.text = "Stone\n$stoneAmount"
                     }
                     if (main_silver_progress.progress >= silverProgressMax && silverAmount <= MAX_VALUE) {
                         silverAmount += silverExtraction
@@ -242,10 +244,21 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        fun moneyPage() {
+            loadText()
+            sell_materials_btn.setOnClickListener {
+
+            }
+            sell_stone_btn.setOnClickListener {
+                
+            }
+        }
+
         fun pageChange() {
             page_change.visibility = View.VISIBLE
             change_main_page.setOnClickListener {
                 if(main_page.visibility != View.VISIBLE) {
+                    mainPage()
                     main_page.visibility = View.VISIBLE
                     money_page.visibility = View.GONE
                     skill_page.visibility = View.GONE
@@ -253,6 +266,7 @@ class MainActivity : AppCompatActivity() {
             }
             change_money_page.setOnClickListener {
                 if(money_page.visibility != View.VISIBLE) {
+                    moneyPage()
                     main_page.visibility = View.GONE
                     money_page.visibility = View.VISIBLE
                     skill_page.visibility = View.GONE

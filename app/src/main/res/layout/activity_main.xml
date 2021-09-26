@@ -11,7 +11,7 @@
         android:id="@+id/main_page"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="visible"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -57,6 +57,7 @@
             android:layout_height="75dp"
             android:background="@drawable/btn_grey"
             android:stateListAnimator="@null"
+            android:textColor="@color/white"
             android:text="Stone\n0"
             app:layout_constraintBottom_toBottomOf="@+id/main_stone"
             app:layout_constraintEnd_toEndOf="parent"
@@ -110,6 +111,7 @@
             android:layout_height="75dp"
             android:background="@drawable/btn_grey"
             android:stateListAnimator="@null"
+            android:textColor="@color/white"
             android:text="Silver\n0"
             app:layout_constraintBottom_toBottomOf="@+id/main_silver"
             app:layout_constraintEnd_toEndOf="parent"
@@ -163,6 +165,7 @@
             android:layout_height="75dp"
             android:background="@drawable/btn_grey"
             android:stateListAnimator="@null"
+            android:textColor="@color/white"
             android:text="Iron\n0"
             app:layout_constraintBottom_toBottomOf="@+id/main_iron"
             app:layout_constraintEnd_toEndOf="parent"
@@ -264,7 +267,7 @@
         android:id="@+id/dev_page"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="visible"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -332,23 +335,79 @@
         android:id="@+id/money_page"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <ImageView
-            android:id="@+id/money_test_element"
-            android:layout_width="75dp"
+        <Button
+            android:id="@+id/sell_materials_btn"
+            android:layout_width="match_parent"
             android:layout_height="75dp"
-            app:layout_constraintVertical_bias="0.6"
-            app:layout_constraintHorizontal_bias="0.25"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            android:background="@drawable/btn_dark_grey"
+            android:textColor="@color/white"
+            android:stateListAnimator="@null"
+            android:textSize="15dp"
+            android:text="Sell Materials"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:srcCompat="@drawable/test_element" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <Button
+            android:id="@+id/sell_stone_btn"
+            android:layout_width="match_parent"
+            android:layout_height="75dp"
+            android:background="@drawable/btn_grey"
+            android:stateListAnimator="@null"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="@+id/sell_stone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/sell_stone"
+            app:layout_constraintTop_toTopOf="@+id/sell_stone"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <ImageView
+            android:id="@+id/sell_stone"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.045"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/sell_materials_btn"
+            app:srcCompat="@drawable/stone" />
+
+        <TextView
+            android:id="@+id/money_stone_amount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:text="Stone\n0"
+            android:textAlignment="center"
+            app:layout_constraintBottom_toBottomOf="@+id/sell_stone_btn"
+            app:layout_constraintEnd_toEndOf="@+id/sell_stone_btn"
+            app:layout_constraintStart_toStartOf="@+id/sell_stone_btn"
+            app:layout_constraintTop_toTopOf="@+id/sell_stone_btn"
+            app:layout_constraintHorizontal_bias="0.4"
+            app:layout_constraintVertical_bias="0.5" />
+
+        <TextView
+            android:id="@+id/money_stone_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:text="Price\n1"
+            android:textAlignment="center"
+            app:layout_constraintBottom_toBottomOf="@+id/sell_stone_btn"
+            app:layout_constraintEnd_toEndOf="@+id/sell_stone_btn"
+            app:layout_constraintStart_toStartOf="@+id/sell_stone_btn"
+            app:layout_constraintTop_toTopOf="@+id/sell_stone_btn"
+            app:layout_constraintHorizontal_bias="0.8"
+            app:layout_constraintVertical_bias="0.5" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
