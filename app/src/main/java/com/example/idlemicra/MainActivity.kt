@@ -250,7 +250,7 @@ class MainActivity : AppCompatActivity() {
 
             }
             sell_stone_btn.setOnClickListener {
-                
+
             }
         }
 
