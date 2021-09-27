@@ -136,6 +136,10 @@ class MainActivity : AppCompatActivity() {
                 sell_materials_btn.text = "Sell Materials\nTotal: $totalMaterials\nGain: $totalPriceMaterials"
                 money_stone_amount.text = "Stone\n$stoneAmount"
                 money_stone_price.text = "Price\n$stonePrice"
+                money_silver_amount.text = "Silver\n$silverAmount"
+                money_silver_price.text = "Price\n$silverPrice"
+                money_iron_amount.text = "Iron\n$ironAmount"
+                money_iron_price.text = "Price\n$ironPrice"
             }
             if(main_page.visibility == View.VISIBLE) {
                 main_stone_btn.text = "Stone\n$stoneAmount"
@@ -293,6 +297,11 @@ class MainActivity : AppCompatActivity() {
                     silverAmount = 0
                     loadText()
                 }
+                if(!ironLocked){
+                    moneyAmount += (ironAmount*ironPrice)
+                    ironAmount = 0
+                    loadText()
+                }
             }
             sell_stone_btn.setOnClickListener {
                 if(stoneLocked){
@@ -311,6 +320,16 @@ class MainActivity : AppCompatActivity() {
                 }else{
                     silverLocked = true
                     sell_silver_btn.setBackgroundResource(R.drawable.btn_locked_material)
+                }
+                loadText()
+            }
+            sell_iron_btn.setOnClickListener {
+                if(ironLocked){
+                    ironLocked = false
+                    sell_iron_btn.setBackgroundResource(R.drawable.btn_unlocked_material)
+                }else{
+                    ironLocked = true
+                    sell_iron_btn.setBackgroundResource(R.drawable.btn_locked_material)
                 }
                 loadText()
             }

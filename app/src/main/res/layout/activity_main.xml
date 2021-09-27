@@ -487,6 +487,58 @@
             app:layout_constraintHorizontal_bias="0.8"
             app:layout_constraintVertical_bias="0.5" />
 
+        <Button
+            android:id="@+id/sell_iron_btn"
+            android:layout_width="match_parent"
+            android:layout_height="75dp"
+            android:background="@drawable/btn_unlocked_material"
+            android:stateListAnimator="@null"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="@+id/sell_iron"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/sell_iron"
+            app:layout_constraintTop_toTopOf="@+id/sell_iron"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <ImageView
+            android:id="@+id/sell_iron"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.045"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/sell_silver"
+            app:srcCompat="@drawable/iron" />
+
+        <TextView
+            android:id="@+id/money_iron_amount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:text="Iron\n0"
+            android:textAlignment="center"
+            app:layout_constraintBottom_toBottomOf="@+id/sell_iron_btn"
+            app:layout_constraintEnd_toEndOf="@+id/sell_iron_btn"
+            app:layout_constraintStart_toStartOf="@+id/sell_iron_btn"
+            app:layout_constraintTop_toTopOf="@+id/sell_iron_btn"
+            app:layout_constraintHorizontal_bias="0.4"
+            app:layout_constraintVertical_bias="0.5" />
+
+        <TextView
+            android:id="@+id/money_iron_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:text="Price\n1"
+            android:textAlignment="center"
+            app:layout_constraintBottom_toBottomOf="@+id/sell_iron_btn"
+            app:layout_constraintEnd_toEndOf="@+id/sell_iron_btn"
+            app:layout_constraintStart_toStartOf="@+id/sell_iron_btn"
+            app:layout_constraintTop_toTopOf="@+id/sell_iron_btn"
+            app:layout_constraintHorizontal_bias="0.8"
+            app:layout_constraintVertical_bias="0.5" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
