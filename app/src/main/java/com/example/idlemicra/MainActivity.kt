@@ -307,12 +307,23 @@ class MainActivity : AppCompatActivity() {
                         if (event.rawY + y!!.toInt() <= 40 && event.rawY + y!!.toInt() >= -2300) {
                             main_page_content.y = event.rawY + y!!.toInt()
                         }
-//                    if(main_page_content.y>0 || main_page_content.y<=0 && main_page_content.y>=-10){
-//                        main_page_content.y = 0F
-//                    }
-//                    if(main_page_content.y<-2260 || main_page_content.y>=-2250 && main_page_content.y<=-2260){
-//                        main_page_content.y = -2260F
-//                    }
+                    }
+                }
+            }
+
+            true
+        }
+        screen_slide.setOnTouchListener { v, event ->
+            if(main_page.visibility == View.VISIBLE) {
+                when (event.action) {
+                    MotionEvent.ACTION_DOWN -> {
+                        x = main_page_content.x.toDouble() - event.rawX
+                        y = main_page_content.y.toDouble() - event.rawY
+                    }
+                    MotionEvent.ACTION_MOVE -> {
+                        if (event.rawY + y!!.toInt() <= 40 && event.rawY + y!!.toInt() >= -2300) {
+                            main_page_content.y = event.rawY + y!!.toInt()
+                        }
                     }
                 }
             }

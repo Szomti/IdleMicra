@@ -269,6 +269,17 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <ImageView
+            android:id="@+id/screen_slide"
+            android:layout_width="20dp"
+            android:layout_height="match_parent"
+            app:srcCompat="@drawable/transparent"
+            app:layout_constraintHorizontal_bias="1"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <Switch
             android:id="@+id/dev_switch"
             android:layout_width="wrap_content"
