@@ -11,7 +11,7 @@
         android:id="@+id/main_page"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="visible"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -401,7 +401,7 @@
         android:id="@+id/money_page"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -503,6 +503,7 @@
 
         <Button
             android:id="@+id/sell_silver_btn"
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="75dp"
             android:background="@drawable/btn_unlocked_material"
@@ -517,6 +518,7 @@
 
         <ImageView
             android:id="@+id/sell_silver"
+            android:visibility="gone"
             android:layout_width="75dp"
             android:layout_height="75dp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -527,6 +529,7 @@
 
         <TextView
             android:id="@+id/money_silver_amount"
+            android:visibility="gone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/white"
@@ -541,6 +544,7 @@
 
         <TextView
             android:id="@+id/money_silver_price"
+            android:visibility="gone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/white"
@@ -555,6 +559,7 @@
 
         <Button
             android:id="@+id/sell_iron_btn"
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="75dp"
             android:background="@drawable/btn_unlocked_material"
@@ -569,6 +574,7 @@
 
         <ImageView
             android:id="@+id/sell_iron"
+            android:visibility="gone"
             android:layout_width="75dp"
             android:layout_height="75dp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -579,6 +585,7 @@
 
         <TextView
             android:id="@+id/money_iron_amount"
+            android:visibility="gone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/white"
@@ -593,6 +600,7 @@
 
         <TextView
             android:id="@+id/money_iron_price"
+            android:visibility="gone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/white"
@@ -684,6 +692,7 @@
 
         <Button
             android:id="@+id/silver_worker_btn"
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="75dp"
             android:background="@drawable/btn_grey"
@@ -698,6 +707,7 @@
 
         <ImageView
             android:id="@+id/silver_worker"
+            android:visibility="gone"
             android:layout_width="75dp"
             android:layout_height="75dp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -708,6 +718,7 @@
 
         <TextView
             android:id="@+id/silver_worker_text"
+            android:visibility="gone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/white"
@@ -722,6 +733,7 @@
 
         <TextView
             android:id="@+id/silver_worker_price"
+            android:visibility="gone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/white"
@@ -736,6 +748,7 @@
 
         <Button
             android:id="@+id/iron_worker_btn"
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="75dp"
             android:background="@drawable/btn_grey"
@@ -750,6 +763,7 @@
 
         <ImageView
             android:id="@+id/iron_worker"
+            android:visibility="gone"
             android:layout_width="75dp"
             android:layout_height="75dp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -760,6 +774,7 @@
 
         <TextView
             android:id="@+id/iron_worker_text"
+            android:visibility="gone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/white"
@@ -774,6 +789,7 @@
 
         <TextView
             android:id="@+id/iron_worker_price"
+            android:visibility="gone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/white"

@@ -77,6 +77,7 @@ class MainActivity : AppCompatActivity() {
         var stoneLocked = false
         var stoneWorkerNotEnough = false
         var stoneUnlocked = true
+        var stoneAccept = false
 
         // Silver
         var silverAmount = 0
@@ -91,6 +92,9 @@ class MainActivity : AppCompatActivity() {
         var silverLocked = false
         var silverWorkerNotEnough = false
         var silverUnlocked = false
+        var silverStoneToGet = 50
+        var silverAccept = false
+        var silverFirst = true
 
         // Iron
         var ironAmount = 0
@@ -105,6 +109,9 @@ class MainActivity : AppCompatActivity() {
         var ironLocked = false
         var ironWorkerNotEnough = false
         var ironUnlocked = false
+        var ironStoneToGet = 250
+        var ironSilverToGet = 50
+        var ironFirst = true
 
         var x : Double? = 0.0
         var y : Double? = 0.0
@@ -122,6 +129,9 @@ class MainActivity : AppCompatActivity() {
                 putBoolean("STONE_WORKER_KEY", stoneWorker)
                 putBoolean("SILVER_WORKER_KEY", silverWorker)
                 putBoolean("IRON_WORKER_KEY", ironWorker)
+
+                putBoolean("SILVER_UNLOCKED_KEY", silverUnlocked)
+                putBoolean("IRON_UNLOCKED_KEY", ironUnlocked)
             }.apply()
         }
 
@@ -202,6 +212,9 @@ class MainActivity : AppCompatActivity() {
             val savedSilverWorker: Boolean = sharedPreferences.getBoolean("SILVER_WORKER_KEY", silverWorker)
             val savedIronWorker: Boolean = sharedPreferences.getBoolean("IRON_WORKER_KEY", ironWorker)
 
+            val savedSilverUnlocked: Boolean = sharedPreferences.getBoolean("SILVER_UNLOCKED_KEY", silverUnlocked)
+            val savedIronUnlocked: Boolean = sharedPreferences.getBoolean("IRON_UNLOCKED_KEY", ironUnlocked)
+
             moneyAmount = savedMoneyAmount
 
             stoneAmount = savedStoneAmount
@@ -211,6 +224,9 @@ class MainActivity : AppCompatActivity() {
             stoneWorker = savedStoneWorker
             silverWorker = savedSilverWorker
             ironWorker = savedIronWorker
+
+            silverUnlocked = savedSilverUnlocked
+            ironUnlocked = savedIronUnlocked
 
             setDefaultValues()
             loadWorkers()
@@ -265,6 +281,7 @@ class MainActivity : AppCompatActivity() {
                         stoneAmount += stoneExtraction
                         main_stone_progress.progress = 0
                         loadText()
+                        stoneAccept = true
                     }
                     if (main_silver_progress.progress >= silverProgressMax && silverAmount <= MAX_VALUE) {
                         silverAmount += silverExtraction
@@ -276,9 +293,72 @@ class MainActivity : AppCompatActivity() {
                         main_iron_progress.progress = 0
                         loadText()
                     }
+                    if(!silverUnlocked){
+                        if(stoneAccept){
+                            silverStoneToGet-=stoneExtraction
+                        }
+                        if(silverStoneToGet<=0){
+                            blocked_main_silver.visibility = View.GONE
+                            lock_main_silver.visibility = View.GONE
+                            lock_main_silver_text.visibility = View.GONE
+                            silverUnlocked = true
+                        }else{
+                            lock_main_silver_text.text = "Locked\n$silverStoneToGet Stone"
+                        }
+                    }
+                    if(!ironUnlocked){
+                        if(stoneAccept){
+                            ironStoneToGet-=stoneExtraction
+                        }
+                        if(silverAccept){
+                            ironSilverToGet-=silverExtraction
+                        }
+                        if(ironStoneToGet<=0 && ironSilverToGet<=0){
+                            blocked_main_iron.visibility = View.GONE
+                            lock_main_iron.visibility = View.GONE
+                            lock_main_iron_text.visibility = View.GONE
+                            ironUnlocked = true
+                        }else{
+                            lock_main_iron_text.text = "Locked\n$ironStoneToGet Stone + $ironSilverToGet Silver"
+                        }
+                    }
+                    stoneAccept = false
+                    silverAccept = false
                     test_dev_text.text = main_page_content.y.toString()
                 }
                 delay(20L)
+            }
+        }
+
+        val unlockMaterials = lifecycleScope.launch(Dispatchers.IO) {
+            while (isActive) {
+                lifecycleScope.launch {
+                    if(silverUnlocked && silverFirst){
+                        sell_silver_btn.visibility = View.VISIBLE
+                        sell_silver.visibility = View.VISIBLE
+                        money_silver_amount.visibility = View.VISIBLE
+                        money_silver_price.visibility = View.VISIBLE
+
+                        silver_worker_price.visibility = View.VISIBLE
+                        silver_worker_text.visibility = View.VISIBLE
+                        silver_worker_btn.visibility = View.VISIBLE
+                        silver_worker.visibility = View.VISIBLE
+                        silverFirst = false
+                    }
+                    if(ironUnlocked && ironFirst){
+                        sell_iron_btn.visibility = View.VISIBLE
+                        sell_iron.visibility = View.VISIBLE
+                        money_iron_amount.visibility = View.VISIBLE
+                        money_iron_price.visibility = View.VISIBLE
+
+                        iron_worker_price.visibility = View.VISIBLE
+                        iron_worker_text.visibility = View.VISIBLE
+                        iron_worker_btn.visibility = View.VISIBLE
+                        iron_worker.visibility = View.VISIBLE
+                        ironFirst = false
+                    }
+                }
+                delay(50L)
             }
         }
 
@@ -434,10 +514,7 @@ class MainActivity : AppCompatActivity() {
 //                    val params = silver_worker.layoutParams as ConstraintLayout.LayoutParams
 //                    params.topToBottom = money_worker.id
 //                    silver_worker.requestLayout()
-                        silver_worker_price.visibility = View.GONE
-                        silver_worker_text.visibility = View.GONE
-                        silver_worker_btn.visibility = View.GONE
-                        silver_worker.visibility = View.GONE
+                        loadWorkers()
                     } else {
                         if (!silverWorkerNotEnough) {
                             silverWorkerNotEnough = true
@@ -461,10 +538,7 @@ class MainActivity : AppCompatActivity() {
                         moneyAmount -= ironWorkerPrice
                         loadText()
                         ironWorker = true
-                        iron_worker_price.visibility = View.GONE
-                        iron_worker_text.visibility = View.GONE
-                        iron_worker_btn.visibility = View.GONE
-                        iron_worker.visibility = View.GONE
+                        loadWorkers()
                     } else {
                         if (!ironWorkerNotEnough) {
                             ironWorkerNotEnough = true
@@ -624,25 +698,36 @@ class MainActivity : AppCompatActivity() {
 //            val params = silver_worker.layoutParams as ConstraintLayout.LayoutParams
 //            params.topToBottom = stone_worker.id
 //            silver_worker.requestLayout()
-            silver_worker_price.visibility = View.VISIBLE
-            silver_worker_text.visibility = View.VISIBLE
-            silver_worker_btn.visibility = View.VISIBLE
-            silver_worker.visibility = View.VISIBLE
+            silver_worker_price.visibility = View.GONE
+            silver_worker_text.visibility = View.GONE
+            silver_worker_btn.visibility = View.GONE
+            silver_worker.visibility = View.GONE
 
-            iron_worker_price.visibility = View.VISIBLE
-            iron_worker_text.visibility = View.VISIBLE
-            iron_worker_btn.visibility = View.VISIBLE
-            iron_worker.visibility = View.VISIBLE
+            iron_worker_price.visibility = View.GONE
+            iron_worker_text.visibility = View.GONE
+            iron_worker_btn.visibility = View.GONE
+            iron_worker.visibility = View.GONE
+
+            blocked_main_silver.visibility = View.VISIBLE
+            lock_main_silver.visibility = View.VISIBLE
+            lock_main_silver_text.visibility = View.VISIBLE
+
+            blocked_main_iron.visibility = View.VISIBLE
+            lock_main_iron.visibility = View.VISIBLE
+            lock_main_iron_text.visibility = View.VISIBLE
 
             stoneAmount = 0
             main_stone_progress.progress = 0
             stoneWorker = false
+            stoneUnlocked = true
             silverAmount = 0
             main_silver_progress.progress = 0
             silverWorker = false
+            silverUnlocked = false
             ironAmount = 0
             main_iron_progress.progress = 0
             ironWorker = false
+            ironUnlocked = false
             saveData()
             loadText()
             resetDone = true
