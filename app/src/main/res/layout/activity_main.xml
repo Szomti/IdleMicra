@@ -11,7 +11,7 @@
         android:id="@+id/main_page"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -147,6 +147,39 @@
             app:layout_constraintTop_toTopOf="@+id/main_silver_btn"
             app:layout_constraintVertical_bias="0.9" />
 
+        <ImageView
+            android:id="@+id/blocked_main_silver"
+            android:layout_width="match_parent"
+            android:layout_height="75dp"
+            app:srcCompat="@drawable/btn_not_unlocked_material"
+            app:layout_constraintBottom_toBottomOf="@+id/main_silver_btn"
+            app:layout_constraintEnd_toEndOf="@id/main_silver_btn"
+            app:layout_constraintStart_toStartOf="@+id/main_silver_btn"
+            app:layout_constraintTop_toTopOf="@+id/main_silver_btn"/>
+
+        <ImageView
+            android:id="@+id/lock_main_silver"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            app:srcCompat="@drawable/lock"
+            app:layout_constraintBottom_toBottomOf="@+id/main_silver"
+            app:layout_constraintEnd_toEndOf="@id/main_silver"
+            app:layout_constraintStart_toStartOf="@+id/main_silver"
+            app:layout_constraintTop_toTopOf="@+id/main_silver"/>
+
+        <TextView
+            android:id="@+id/lock_main_silver_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:text="Locked\n50 Stone"
+            android:textAlignment="center"
+            app:layout_constraintHorizontal_bias="0.45"
+            app:layout_constraintBottom_toBottomOf="@+id/blocked_main_silver"
+            app:layout_constraintEnd_toEndOf="@id/blocked_main_silver"
+            app:layout_constraintStart_toStartOf="@+id/blocked_main_silver"
+            app:layout_constraintTop_toTopOf="@+id/blocked_main_silver" />
+
         <Space
             android:id="@+id/thirdSpace"
             android:layout_width="match_parent"
@@ -200,6 +233,39 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/main_iron_btn"
             app:layout_constraintVertical_bias="0.9" />
+
+        <ImageView
+            android:id="@+id/blocked_main_iron"
+            android:layout_width="match_parent"
+            android:layout_height="75dp"
+            app:srcCompat="@drawable/btn_not_unlocked_material"
+            app:layout_constraintBottom_toBottomOf="@+id/main_iron_btn"
+            app:layout_constraintEnd_toEndOf="@id/main_iron_btn"
+            app:layout_constraintStart_toStartOf="@+id/main_iron_btn"
+            app:layout_constraintTop_toTopOf="@+id/main_iron_btn"/>
+
+        <ImageView
+            android:id="@+id/lock_main_iron"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            app:srcCompat="@drawable/lock"
+            app:layout_constraintBottom_toBottomOf="@+id/main_iron"
+            app:layout_constraintEnd_toEndOf="@id/main_iron"
+            app:layout_constraintStart_toStartOf="@+id/main_iron"
+            app:layout_constraintTop_toTopOf="@+id/main_iron"/>
+
+        <TextView
+            android:id="@+id/lock_main_iron_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:text="Locked\n250 Stone + 50 Silver"
+            android:textAlignment="center"
+            app:layout_constraintHorizontal_bias="0.45"
+            app:layout_constraintBottom_toBottomOf="@+id/blocked_main_iron"
+            app:layout_constraintEnd_toEndOf="@id/blocked_main_iron"
+            app:layout_constraintStart_toStartOf="@+id/blocked_main_iron"
+            app:layout_constraintTop_toTopOf="@+id/blocked_main_iron" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -335,7 +401,7 @@
         android:id="@+id/money_page"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="visible"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -816,7 +882,7 @@
             app:layout_constraintVertical_bias="0.0" />
 
         <ImageView
-            android:id="@+id/imageView2"
+            android:id="@+id/logo_image"
             android:layout_width="272dp"
             android:layout_height="304dp"
             app:layout_constraintBottom_toBottomOf="parent"

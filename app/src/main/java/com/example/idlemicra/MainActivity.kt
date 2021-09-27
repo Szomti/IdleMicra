@@ -245,13 +245,13 @@ class MainActivity : AppCompatActivity() {
         val workerGetMaterials = lifecycleScope.launch(Dispatchers.IO) {
             while (isActive) {
                 lifecycleScope.launch {
-                    if (main_stone_progress.progress < stoneProgressMax && stoneWorker) {
+                    if (main_stone_progress.progress < stoneProgressMax && stoneWorker && stoneUnlocked) {
                         main_stone_progress.progress += stoneProgress
                     }
-                    if (main_silver_progress.progress < silverProgressMax && silverWorker) {
+                    if (main_silver_progress.progress < silverProgressMax && silverWorker && silverUnlocked) {
                         main_silver_progress.progress += silverProgress
                     }
-                    if (main_iron_progress.progress < ironProgressMax && ironWorker) {
+                    if (main_iron_progress.progress < ironProgressMax && ironWorker && ironUnlocked) {
                         main_iron_progress.progress += ironProgress
                     }
                 }
@@ -326,13 +326,19 @@ class MainActivity : AppCompatActivity() {
             main_page.visibility = View.VISIBLE
             loadText()
             main_stone_btn.setOnClickListener {
-                main_stone_progress.progress += (stoneProgress * stoneBonus)
+                if(stoneUnlocked) {
+                    main_stone_progress.progress += (stoneProgress * stoneBonus)
+                }
             }
             main_silver_btn.setOnClickListener {
-                main_silver_progress.progress += (silverProgress * silverBonus)
+                if(silverUnlocked) {
+                    main_silver_progress.progress += (silverProgress * silverBonus)
+                }
             }
             main_iron_btn.setOnClickListener {
-                main_iron_progress.progress += (ironProgress * ironBonus)
+                if(ironUnlocked) {
+                    main_iron_progress.progress += (ironProgress * ironBonus)
+                }
             }
         }
 
@@ -390,83 +396,89 @@ class MainActivity : AppCompatActivity() {
             }
             // buy workers
             stone_worker_btn.setOnClickListener {
-                if(moneyAmount>=stoneWorkerPrice){
-                    moneyAmount-=stoneWorkerPrice
-                    loadText()
-                    stoneWorker = true
+                if(stoneUnlocked) {
+                    if (moneyAmount >= stoneWorkerPrice) {
+                        moneyAmount -= stoneWorkerPrice
+                        loadText()
+                        stoneWorker = true
 //                    val params = silver_worker.layoutParams as ConstraintLayout.LayoutParams
 //                    params.topToBottom = money_worker.id
 //                    silver_worker.requestLayout()
-                    stone_worker_price.visibility = View.GONE
-                    stone_worker_text.visibility = View.GONE
-                    stone_worker_btn.visibility = View.GONE
-                    stone_worker.visibility = View.GONE
-                }else{
-                    if(!stoneWorkerNotEnough){
-                        stoneWorkerNotEnough = true
-                        stone_worker_price.text = "Not Enough"
-                        object : CountDownTimer(1000,2000){
-                            override fun onTick(millisUntilFinished: Long) {
-                            }
+                        stone_worker_price.visibility = View.GONE
+                        stone_worker_text.visibility = View.GONE
+                        stone_worker_btn.visibility = View.GONE
+                        stone_worker.visibility = View.GONE
+                    } else {
+                        if (!stoneWorkerNotEnough) {
+                            stoneWorkerNotEnough = true
+                            stone_worker_price.text = "Not Enough"
+                            object : CountDownTimer(1000, 2000) {
+                                override fun onTick(millisUntilFinished: Long) {
+                                }
 
-                            override fun onFinish() {
-                                stone_worker_price.text = "Price\n$stoneWorkerPrice"
-                                stoneWorkerNotEnough = false
-                            }
-                        }.start()
+                                override fun onFinish() {
+                                    stone_worker_price.text = "Price\n$stoneWorkerPrice"
+                                    stoneWorkerNotEnough = false
+                                }
+                            }.start()
+                        }
                     }
                 }
             }
             silver_worker_btn.setOnClickListener {
-                if(moneyAmount>=silverWorkerPrice){
-                    moneyAmount-=silverWorkerPrice
-                    loadText()
-                    silverWorker = true
+                if(silverUnlocked) {
+                    if (moneyAmount >= silverWorkerPrice) {
+                        moneyAmount -= silverWorkerPrice
+                        loadText()
+                        silverWorker = true
 //                    val params = silver_worker.layoutParams as ConstraintLayout.LayoutParams
 //                    params.topToBottom = money_worker.id
 //                    silver_worker.requestLayout()
-                    silver_worker_price.visibility = View.GONE
-                    silver_worker_text.visibility = View.GONE
-                    silver_worker_btn.visibility = View.GONE
-                    silver_worker.visibility = View.GONE
-                }else{
-                    if(!silverWorkerNotEnough){
-                        silverWorkerNotEnough = true
-                        silver_worker_price.text = "Not Enough"
-                        object : CountDownTimer(1000,2000){
-                            override fun onTick(millisUntilFinished: Long) {
-                            }
+                        silver_worker_price.visibility = View.GONE
+                        silver_worker_text.visibility = View.GONE
+                        silver_worker_btn.visibility = View.GONE
+                        silver_worker.visibility = View.GONE
+                    } else {
+                        if (!silverWorkerNotEnough) {
+                            silverWorkerNotEnough = true
+                            silver_worker_price.text = "Not Enough"
+                            object : CountDownTimer(1000, 2000) {
+                                override fun onTick(millisUntilFinished: Long) {
+                                }
 
-                            override fun onFinish() {
-                                silver_worker_price.text = "Price\n$silverWorkerPrice"
-                                silverWorkerNotEnough = false
-                            }
-                        }.start()
+                                override fun onFinish() {
+                                    silver_worker_price.text = "Price\n$silverWorkerPrice"
+                                    silverWorkerNotEnough = false
+                                }
+                            }.start()
+                        }
                     }
                 }
             }
             iron_worker_btn.setOnClickListener {
-                if(moneyAmount>=ironWorkerPrice){
-                    moneyAmount-=ironWorkerPrice
-                    loadText()
-                    ironWorker = true
-                    iron_worker_price.visibility = View.GONE
-                    iron_worker_text.visibility = View.GONE
-                    iron_worker_btn.visibility = View.GONE
-                    iron_worker.visibility = View.GONE
-                }else{
-                    if(!ironWorkerNotEnough){
-                        ironWorkerNotEnough = true
-                        iron_worker_price.text = "Not Enough"
-                        object : CountDownTimer(1000,2000){
-                            override fun onTick(millisUntilFinished: Long) {
-                            }
+                if(ironUnlocked) {
+                    if (moneyAmount >= ironWorkerPrice) {
+                        moneyAmount -= ironWorkerPrice
+                        loadText()
+                        ironWorker = true
+                        iron_worker_price.visibility = View.GONE
+                        iron_worker_text.visibility = View.GONE
+                        iron_worker_btn.visibility = View.GONE
+                        iron_worker.visibility = View.GONE
+                    } else {
+                        if (!ironWorkerNotEnough) {
+                            ironWorkerNotEnough = true
+                            iron_worker_price.text = "Not Enough"
+                            object : CountDownTimer(1000, 2000) {
+                                override fun onTick(millisUntilFinished: Long) {
+                                }
 
-                            override fun onFinish() {
-                                iron_worker_price.text = "Price\n$ironWorkerPrice"
-                                ironWorkerNotEnough = false
-                            }
-                        }.start()
+                                override fun onFinish() {
+                                    iron_worker_price.text = "Price\n$ironWorkerPrice"
+                                    ironWorkerNotEnough = false
+                                }
+                            }.start()
+                        }
                     }
                 }
             }
