@@ -70,9 +70,11 @@ class MainActivity : AppCompatActivity() {
         var stoneProgress = 50
         var stoneBonus = 10
         var stoneManager = false
+        var stoneManagerPrice = 10
         var stoneManagerFirst = true
         var stonePrice = 1
         var stoneLocked = false
+        var stoneManagerNotEnough = false
 
         // Silver
         var silverAmount = 0
@@ -81,6 +83,7 @@ class MainActivity : AppCompatActivity() {
         var silverProgress = 50
         var silverBonus = 10
         var silverManager = false
+        var silverManagerPrice = 250
         var silverManagerFirst = true
         var silverPrice = 5
         var silverLocked = false
@@ -92,6 +95,7 @@ class MainActivity : AppCompatActivity() {
         var ironProgress = 50
         var ironBonus = 10
         var ironManager = false
+        var ironManagerPrice = 2500
         var ironManagerFirst = true
         var ironPrice = 25
         var ironLocked = false
@@ -110,10 +114,17 @@ class MainActivity : AppCompatActivity() {
             }.apply()
         }
 
-        fun setMaxProgress() {
+        fun setDefaultValues() {
+            // progress
             main_stone_progress.max = stoneProgressMax
             main_silver_progress.max = silverProgressMax
             main_iron_progress.max = ironProgressMax
+            // materials price
+            money_stone_price.text = "Price\n$stonePrice"
+            money_silver_price.text = "Price\n$silverPrice"
+            money_iron_price.text = "Price\n$ironPrice"
+            // managers price
+            stone_manager_price.text = "Price\n$stoneManagerPrice"
         }
 
         fun loadText() {
@@ -135,11 +146,8 @@ class MainActivity : AppCompatActivity() {
                 money_amount_text.text = "Money: $moneyAmount"
                 sell_materials_btn.text = "Sell Materials\nTotal: $totalMaterials\nGain: $totalPriceMaterials"
                 money_stone_amount.text = "Stone\n$stoneAmount"
-                money_stone_price.text = "Price\n$stonePrice"
                 money_silver_amount.text = "Silver\n$silverAmount"
-                money_silver_price.text = "Price\n$silverPrice"
                 money_iron_amount.text = "Iron\n$ironAmount"
-                money_iron_price.text = "Price\n$ironPrice"
             }
             if(main_page.visibility == View.VISIBLE) {
                 main_stone_btn.text = "Stone\n$stoneAmount"
@@ -160,7 +168,7 @@ class MainActivity : AppCompatActivity() {
             silverAmount = savedSilverAmount
             ironAmount = savedIronAmount
 
-            setMaxProgress()
+            setDefaultValues()
             loadText()
             dataLoaded = true
         }
@@ -286,6 +294,7 @@ class MainActivity : AppCompatActivity() {
         fun moneyPage() {
             money_page.visibility = View.VISIBLE
             loadText()
+            // sell materials
             sell_materials_btn.setOnClickListener {
                 if(!stoneLocked){
                     moneyAmount += (stoneAmount*stonePrice)
@@ -303,6 +312,7 @@ class MainActivity : AppCompatActivity() {
                     loadText()
                 }
             }
+            // sell lock materials
             sell_stone_btn.setOnClickListener {
                 if(stoneLocked){
                     stoneLocked = false
@@ -332,6 +342,31 @@ class MainActivity : AppCompatActivity() {
                     sell_iron_btn.setBackgroundResource(R.drawable.btn_locked_material)
                 }
                 loadText()
+            }
+            // buy managers
+            stone_manager_btn.setOnClickListener {
+                if(moneyAmount>=stoneManagerPrice){
+                    moneyAmount-=stoneManagerPrice
+                    stoneManager = true
+                    stone_manager_price.visibility = View.GONE
+                    stone_manager_text.visibility = View.GONE
+                    stone_manager_btn.visibility = View.GONE
+                    stone_manager.visibility = View.GONE
+                }else{
+                    if(!stoneManagerNotEnough){
+                        stoneManagerNotEnough = true
+                        stone_manager_price.text = "Not Enough"
+                        object : CountDownTimer(1500,2000){
+                            override fun onTick(millisUntilFinished: Long) {
+                            }
+
+                            override fun onFinish() {
+                                stone_manager_price.text = "Price\n$stoneManagerPrice"
+                                stoneManagerNotEnough = false
+                            }
+                        }.start()
+                    }
+                }
             }
         }
 
@@ -466,6 +501,11 @@ class MainActivity : AppCompatActivity() {
             dev_switch.isChecked = false
 
             moneyAmount = 0
+
+            stone_manager_price.visibility = View.VISIBLE
+            stone_manager_text.visibility = View.VISIBLE
+            stone_manager_btn.visibility = View.VISIBLE
+            stone_manager.visibility = View.VISIBLE
 
             stoneAmount = 0
             main_stone_progress.progress = 0
