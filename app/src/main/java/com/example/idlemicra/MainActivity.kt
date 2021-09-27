@@ -382,6 +382,7 @@ class MainActivity : AppCompatActivity() {
             stone_worker_btn.setOnClickListener {
                 if(moneyAmount>=stoneWorkerPrice){
                     moneyAmount-=stoneWorkerPrice
+                    loadText()
                     stoneWorker = true
 //                    val params = silver_worker.layoutParams as ConstraintLayout.LayoutParams
 //                    params.topToBottom = money_worker.id
@@ -409,6 +410,7 @@ class MainActivity : AppCompatActivity() {
             silver_worker_btn.setOnClickListener {
                 if(moneyAmount>=silverWorkerPrice){
                     moneyAmount-=silverWorkerPrice
+                    loadText()
                     silverWorker = true
 //                    val params = silver_worker.layoutParams as ConstraintLayout.LayoutParams
 //                    params.topToBottom = money_worker.id
