@@ -54,7 +54,7 @@ class MainActivity : AppCompatActivity() {
         var loadingProgressMax = 10000
 
         // Dev
-        var managerChange: Boolean
+        var workerChange: Boolean
 
         // Money Page
         var moneyAmount = 0
@@ -69,12 +69,12 @@ class MainActivity : AppCompatActivity() {
         var stoneProgressMax = 10000
         var stoneProgress = 50
         var stoneBonus = 10
-        var stoneManager = false
-        var stoneManagerPrice = 10
-        var stoneManagerFirst = true
+        var stoneWorker = false
+        var stoneWorkerPrice = 10
+        var stoneWorkerFirst = true
         var stonePrice = 1
         var stoneLocked = false
-        var stoneManagerNotEnough = false
+        var stoneWorkerNotEnough = false
 
         // Silver
         var silverAmount = 0
@@ -82,9 +82,9 @@ class MainActivity : AppCompatActivity() {
         var silverProgressMax = 20000
         var silverProgress = 50
         var silverBonus = 10
-        var silverManager = false
-        var silverManagerPrice = 250
-        var silverManagerFirst = true
+        var silverWorker = false
+        var silverWorkerPrice = 250
+        var silverWorkerFirst = true
         var silverPrice = 5
         var silverLocked = false
 
@@ -94,9 +94,9 @@ class MainActivity : AppCompatActivity() {
         var ironProgressMax = 40000
         var ironProgress = 50
         var ironBonus = 10
-        var ironManager = false
-        var ironManagerPrice = 2500
-        var ironManagerFirst = true
+        var ironWorker = false
+        var ironWorkerPrice = 2500
+        var ironWorkerFirst = true
         var ironPrice = 25
         var ironLocked = false
 
@@ -123,8 +123,8 @@ class MainActivity : AppCompatActivity() {
             money_stone_price.text = "Price\n$stonePrice"
             money_silver_price.text = "Price\n$silverPrice"
             money_iron_price.text = "Price\n$ironPrice"
-            // managers price
-            stone_manager_price.text = "Price\n$stoneManagerPrice"
+            // workers price
+            stone_worker_price.text = "Price\n$stoneWorkerPrice"
         }
 
         fun loadText() {
@@ -197,23 +197,23 @@ class MainActivity : AppCompatActivity() {
             true
         }
 
-        val managerGetMaterials = lifecycleScope.launch(Dispatchers.IO) {
+        val workerGetMaterials = lifecycleScope.launch(Dispatchers.IO) {
             while (isActive) {
                 lifecycleScope.launch {
-                    if (main_stone_progress.progress < stoneProgressMax && stoneManager) {
+                    if (main_stone_progress.progress < stoneProgressMax && stoneWorker) {
                         main_stone_progress.progress += stoneProgress
                     }
-                    if (main_silver_progress.progress < silverProgressMax && silverManager) {
+                    if (main_silver_progress.progress < silverProgressMax && silverWorker) {
                         main_silver_progress.progress += silverProgress
                     }
-                    if (main_iron_progress.progress < ironProgressMax && ironManager) {
+                    if (main_iron_progress.progress < ironProgressMax && ironWorker) {
                         main_iron_progress.progress += ironProgress
                     }
                 }
                 delay(25L)
             }
         }
-        val managerDoneMaterials = lifecycleScope.launch(Dispatchers.IO) {
+        val workerDoneMaterials = lifecycleScope.launch(Dispatchers.IO) {
             while (isActive) {
                 lifecycleScope.launch {
                     if (main_stone_progress.progress >= stoneProgressMax && stoneAmount <= MAX_VALUE) {
@@ -343,26 +343,26 @@ class MainActivity : AppCompatActivity() {
                 }
                 loadText()
             }
-            // buy managers
-            stone_manager_btn.setOnClickListener {
-                if(moneyAmount>=stoneManagerPrice){
-                    moneyAmount-=stoneManagerPrice
-                    stoneManager = true
-                    stone_manager_price.visibility = View.GONE
-                    stone_manager_text.visibility = View.GONE
-                    stone_manager_btn.visibility = View.GONE
-                    stone_manager.visibility = View.GONE
+            // buy workers
+            stone_worker_btn.setOnClickListener {
+                if(moneyAmount>=stoneWorkerPrice){
+                    moneyAmount-=stoneWorkerPrice
+                    stoneWorker = true
+                    stone_worker_price.visibility = View.GONE
+                    stone_worker_text.visibility = View.GONE
+                    stone_worker_btn.visibility = View.GONE
+                    stone_worker.visibility = View.GONE
                 }else{
-                    if(!stoneManagerNotEnough){
-                        stoneManagerNotEnough = true
-                        stone_manager_price.text = "Not Enough"
+                    if(!stoneWorkerNotEnough){
+                        stoneWorkerNotEnough = true
+                        stone_worker_price.text = "Not Enough"
                         object : CountDownTimer(1500,2000){
                             override fun onTick(millisUntilFinished: Long) {
                             }
 
                             override fun onFinish() {
-                                stone_manager_price.text = "Price\n$stoneManagerPrice"
-                                stoneManagerNotEnough = false
+                                stone_worker_price.text = "Price\n$stoneWorkerPrice"
+                                stoneWorkerNotEnough = false
                             }
                         }.start()
                     }
@@ -502,65 +502,65 @@ class MainActivity : AppCompatActivity() {
 
             moneyAmount = 0
 
-            stone_manager_price.visibility = View.VISIBLE
-            stone_manager_text.visibility = View.VISIBLE
-            stone_manager_btn.visibility = View.VISIBLE
-            stone_manager.visibility = View.VISIBLE
+            stone_worker_price.visibility = View.VISIBLE
+            stone_worker_text.visibility = View.VISIBLE
+            stone_worker_btn.visibility = View.VISIBLE
+            stone_worker.visibility = View.VISIBLE
 
             stoneAmount = 0
             main_stone_progress.progress = 0
-            stoneManager = false
+            stoneWorker = false
             silverAmount = 0
             main_silver_progress.progress = 0
-            silverManager = false
+            silverWorker = false
             ironAmount = 0
             main_iron_progress.progress = 0
-            ironManager = false
+            ironWorker = false
             saveData()
             loadText()
             resetDone = true
         }
 
         fun devPage() {
-            manager_btn.setOnClickListener {
-                if(manager_change_btn.text == "stone") {
-                    stoneManager = !stoneManager
-                    if (!stoneManagerFirst && stoneManager) {
-                        stoneManagerFirst = true
+            worker_btn.setOnClickListener {
+                if(worker_change_btn.text == "stone") {
+                    stoneWorker = !stoneWorker
+                    if (!stoneWorkerFirst && stoneWorker) {
+                        stoneWorkerFirst = true
                     }
-                    Toast.makeText(this, "Stone - State: " + stoneManager.toString(), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Stone - State: " + stoneWorker.toString(), Toast.LENGTH_SHORT).show()
                 }
-                if(manager_change_btn.text == "silver") {
-                    silverManager = !silverManager
-                    if (!silverManagerFirst && silverManager) {
-                        silverManagerFirst = true
+                if(worker_change_btn.text == "silver") {
+                    silverWorker = !silverWorker
+                    if (!silverWorkerFirst && silverWorker) {
+                        silverWorkerFirst = true
                     }
-                    Toast.makeText(this, "Silver - State: " + silverManager.toString(), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Silver - State: " + silverWorker.toString(), Toast.LENGTH_SHORT).show()
                 }
-                if(manager_change_btn.text == "iron") {
-                    ironManager = !ironManager
-                    if (!ironManagerFirst && ironManager) {
-                        ironManagerFirst = true
+                if(worker_change_btn.text == "iron") {
+                    ironWorker = !ironWorker
+                    if (!ironWorkerFirst && ironWorker) {
+                        ironWorkerFirst = true
                     }
-                    Toast.makeText(this, "Iron - State: " + ironManager.toString(), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Iron - State: " + ironWorker.toString(), Toast.LENGTH_SHORT).show()
                 }
             }
-            manager_change_btn.setOnClickListener {
-                managerChange = true
-                if(manager_change_btn.text == "stone" && managerChange){
-                    manager_btn.text = "silverManager"
-                    manager_change_btn.text = "silver"
-                    managerChange = false
+            worker_change_btn.setOnClickListener {
+                workerChange = true
+                if(worker_change_btn.text == "stone" && workerChange){
+                    worker_btn.text = "silverWorker"
+                    worker_change_btn.text = "silver"
+                    workerChange = false
                 }
-                if(manager_change_btn.text == "silver" && managerChange){
-                    manager_btn.text = "ironManager"
-                    manager_change_btn.text = "iron"
-                    managerChange = false
+                if(worker_change_btn.text == "silver" && workerChange){
+                    worker_btn.text = "ironWorker"
+                    worker_change_btn.text = "iron"
+                    workerChange = false
                 }
-                if(manager_change_btn.text == "iron" && managerChange){
-                    manager_btn.text = "stoneManager"
-                    manager_change_btn.text = "stone"
-                    managerChange = false
+                if(worker_change_btn.text == "iron" && workerChange){
+                    worker_btn.text = "stoneWorker"
+                    worker_change_btn.text = "stone"
+                    workerChange = false
                 }
             }
             reset_btn.setOnClickListener {
