@@ -88,6 +88,7 @@ class MainActivity : AppCompatActivity() {
         var silverWorkerFirst = true
         var silverPrice = 5
         var silverLocked = false
+        var silverWorkerNotEnough = false
 
         // Iron
         var ironAmount = 0
@@ -100,6 +101,7 @@ class MainActivity : AppCompatActivity() {
         var ironWorkerFirst = true
         var ironPrice = 25
         var ironLocked = false
+        var ironWorkerNotEnough = false
 
         var x : Double? = 0.0
         var y : Double? = 0.0
@@ -163,6 +165,21 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        fun loadWorkers() {
+            if(stoneWorker){
+                stone_worker_price.visibility = View.GONE
+                stone_worker_text.visibility = View.GONE
+                stone_worker_btn.visibility = View.GONE
+                stone_worker.visibility = View.GONE
+            }
+            if(silverWorker){
+                silver_worker_price.visibility = View.GONE
+                silver_worker_text.visibility = View.GONE
+                silver_worker_btn.visibility = View.GONE
+                silver_worker.visibility = View.GONE
+            }
+        }
+
         fun loadData() {
             val sharedPreferences: SharedPreferences = getSharedPreferences("sharedPrefs", MODE_PRIVATE)
             val savedMoneyAmount: Int = sharedPreferences.getInt("MONEY_AMOUNT_KEY", moneyAmount)
@@ -186,6 +203,7 @@ class MainActivity : AppCompatActivity() {
             ironWorker = savedIronWorker
 
             setDefaultValues()
+            loadWorkers()
             loadText()
             dataLoaded = true
         }
@@ -365,9 +383,9 @@ class MainActivity : AppCompatActivity() {
                 if(moneyAmount>=stoneWorkerPrice){
                     moneyAmount-=stoneWorkerPrice
                     stoneWorker = true
-                    val params = silver_worker.layoutParams as ConstraintLayout.LayoutParams
-                    params.topToBottom = money_worker.id
-                    silver_worker.requestLayout()
+//                    val params = silver_worker.layoutParams as ConstraintLayout.LayoutParams
+//                    params.topToBottom = money_worker.id
+//                    silver_worker.requestLayout()
                     stone_worker_price.visibility = View.GONE
                     stone_worker_text.visibility = View.GONE
                     stone_worker_btn.visibility = View.GONE
@@ -383,6 +401,33 @@ class MainActivity : AppCompatActivity() {
                             override fun onFinish() {
                                 stone_worker_price.text = "Price\n$stoneWorkerPrice"
                                 stoneWorkerNotEnough = false
+                            }
+                        }.start()
+                    }
+                }
+            }
+            silver_worker_btn.setOnClickListener {
+                if(moneyAmount>=silverWorkerPrice){
+                    moneyAmount-=silverWorkerPrice
+                    silverWorker = true
+//                    val params = silver_worker.layoutParams as ConstraintLayout.LayoutParams
+//                    params.topToBottom = money_worker.id
+//                    silver_worker.requestLayout()
+                    silver_worker_price.visibility = View.GONE
+                    silver_worker_text.visibility = View.GONE
+                    silver_worker_btn.visibility = View.GONE
+                    silver_worker.visibility = View.GONE
+                }else{
+                    if(!silverWorkerNotEnough){
+                        silverWorkerNotEnough = true
+                        silver_worker_price.text = "Not Enough"
+                        object : CountDownTimer(1500,2000){
+                            override fun onTick(millisUntilFinished: Long) {
+                            }
+
+                            override fun onFinish() {
+                                silver_worker_price.text = "Price\n$silverWorkerPrice"
+                                silverWorkerNotEnough = false
                             }
                         }.start()
                     }
@@ -522,6 +567,14 @@ class MainActivity : AppCompatActivity() {
 
             moneyAmount = 0
 
+            stone_worker_price.visibility = View.VISIBLE
+            stone_worker_text.visibility = View.VISIBLE
+            stone_worker_btn.visibility = View.VISIBLE
+            stone_worker.visibility = View.VISIBLE
+
+//            val params = silver_worker.layoutParams as ConstraintLayout.LayoutParams
+//            params.topToBottom = stone_worker.id
+//            silver_worker.requestLayout()
             stone_worker_price.visibility = View.VISIBLE
             stone_worker_text.visibility = View.VISIBLE
             stone_worker_btn.visibility = View.VISIBLE
