@@ -288,14 +288,29 @@ class MainActivity : AppCompatActivity() {
                     stoneAmount = 0
                     loadText()
                 }
+                if(!silverLocked){
+                    moneyAmount += (silverAmount*silverPrice)
+                    silverAmount = 0
+                    loadText()
+                }
             }
             sell_stone_btn.setOnClickListener {
                 if(stoneLocked){
                     stoneLocked = false
-                    sell_stone_btn.setBackgroundResource(R.drawable.btn_grey)
+                    sell_stone_btn.setBackgroundResource(R.drawable.btn_unlocked_material)
                 }else{
                     stoneLocked = true
                     sell_stone_btn.setBackgroundResource(R.drawable.btn_locked_material)
+                }
+                loadText()
+            }
+            sell_silver_btn.setOnClickListener {
+                if(silverLocked){
+                    silverLocked = false
+                    sell_silver_btn.setBackgroundResource(R.drawable.btn_unlocked_material)
+                }else{
+                    silverLocked = true
+                    sell_silver_btn.setBackgroundResource(R.drawable.btn_locked_material)
                 }
                 loadText()
             }

@@ -11,7 +11,7 @@
         android:id="@+id/main_page"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="visible"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -335,7 +335,7 @@
         android:id="@+id/money_page"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -387,7 +387,7 @@
             android:id="@+id/sell_stone_btn"
             android:layout_width="match_parent"
             android:layout_height="75dp"
-            android:background="@drawable/btn_grey"
+            android:background="@drawable/btn_unlocked_material"
             android:stateListAnimator="@null"
             android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="@+id/sell_stone"
@@ -432,6 +432,58 @@
             app:layout_constraintEnd_toEndOf="@+id/sell_stone_btn"
             app:layout_constraintStart_toStartOf="@+id/sell_stone_btn"
             app:layout_constraintTop_toTopOf="@+id/sell_stone_btn"
+            app:layout_constraintHorizontal_bias="0.8"
+            app:layout_constraintVertical_bias="0.5" />
+
+        <Button
+            android:id="@+id/sell_silver_btn"
+            android:layout_width="match_parent"
+            android:layout_height="75dp"
+            android:background="@drawable/btn_unlocked_material"
+            android:stateListAnimator="@null"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="@+id/sell_silver"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/sell_silver"
+            app:layout_constraintTop_toTopOf="@+id/sell_silver"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <ImageView
+            android:id="@+id/sell_silver"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.045"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/sell_stone"
+            app:srcCompat="@drawable/silver" />
+
+        <TextView
+            android:id="@+id/money_silver_amount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:text="Silver\n0"
+            android:textAlignment="center"
+            app:layout_constraintBottom_toBottomOf="@+id/sell_silver_btn"
+            app:layout_constraintEnd_toEndOf="@+id/sell_silver_btn"
+            app:layout_constraintStart_toStartOf="@+id/sell_silver_btn"
+            app:layout_constraintTop_toTopOf="@+id/sell_silver_btn"
+            app:layout_constraintHorizontal_bias="0.4"
+            app:layout_constraintVertical_bias="0.5" />
+
+        <TextView
+            android:id="@+id/money_silver_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:text="Price\n1"
+            android:textAlignment="center"
+            app:layout_constraintBottom_toBottomOf="@+id/sell_silver_btn"
+            app:layout_constraintEnd_toEndOf="@+id/sell_silver_btn"
+            app:layout_constraintStart_toStartOf="@+id/sell_silver_btn"
+            app:layout_constraintTop_toTopOf="@+id/sell_silver_btn"
             app:layout_constraintHorizontal_bias="0.8"
             app:layout_constraintVertical_bias="0.5" />
 
