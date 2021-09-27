@@ -13,6 +13,7 @@ import androidx.lifecycle.lifecycleScope
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.*
 import android.view.MotionEvent
+import androidx.constraintlayout.widget.ConstraintLayout
 
 class MainActivity : AppCompatActivity() {
 
@@ -107,10 +108,15 @@ class MainActivity : AppCompatActivity() {
             val sharedPreferences: SharedPreferences = getSharedPreferences("sharedPrefs", MODE_PRIVATE)
             val editor: SharedPreferences.Editor = sharedPreferences.edit()
             editor.apply{
-                putInt("STONE_AMOUNT_KEY", stoneAmount)
                 putInt("MONEY_AMOUNT_KEY", moneyAmount)
+
+                putInt("STONE_AMOUNT_KEY", stoneAmount)
                 putInt("SILVER_AMOUNT_KEY", silverAmount)
                 putInt("IRON_AMOUNT_KEY", ironAmount)
+
+                putBoolean("STONE_WORKER_KEY", stoneWorker)
+                putBoolean("SILVER_WORKER_KEY", silverWorker)
+                putBoolean("IRON_WORKER_KEY", ironWorker)
             }.apply()
         }
 
@@ -125,6 +131,7 @@ class MainActivity : AppCompatActivity() {
             money_iron_price.text = "Price\n$ironPrice"
             // workers price
             stone_worker_price.text = "Price\n$stoneWorkerPrice"
+            silver_worker_price.text = "Price\n$silverWorkerPrice"
         }
 
         fun loadText() {
@@ -158,15 +165,25 @@ class MainActivity : AppCompatActivity() {
 
         fun loadData() {
             val sharedPreferences: SharedPreferences = getSharedPreferences("sharedPrefs", MODE_PRIVATE)
-            val savedStoneAmount: Int = sharedPreferences.getInt("STONE_AMOUNT_KEY", stoneAmount)
             val savedMoneyAmount: Int = sharedPreferences.getInt("MONEY_AMOUNT_KEY", moneyAmount)
+
+            val savedStoneAmount: Int = sharedPreferences.getInt("STONE_AMOUNT_KEY", stoneAmount)
             val savedSilverAmount: Int = sharedPreferences.getInt("SILVER_AMOUNT_KEY", silverAmount)
             val savedIronAmount: Int = sharedPreferences.getInt("IRON_AMOUNT_KEY", ironAmount)
 
-            stoneAmount = savedStoneAmount
+            val savedStoneWorker: Boolean = sharedPreferences.getBoolean("STONE_WORKER_KEY", stoneWorker)
+            val savedSilverWorker: Boolean = sharedPreferences.getBoolean("SILVER_WORKER_KEY", silverWorker)
+            val savedIronWorker: Boolean = sharedPreferences.getBoolean("IRON_WORKER_KEY", ironWorker)
+
             moneyAmount = savedMoneyAmount
+
+            stoneAmount = savedStoneAmount
             silverAmount = savedSilverAmount
             ironAmount = savedIronAmount
+
+            stoneWorker = savedStoneWorker
+            silverWorker = savedSilverWorker
+            ironWorker = savedIronWorker
 
             setDefaultValues()
             loadText()
@@ -348,6 +365,9 @@ class MainActivity : AppCompatActivity() {
                 if(moneyAmount>=stoneWorkerPrice){
                     moneyAmount-=stoneWorkerPrice
                     stoneWorker = true
+                    val params = silver_worker.layoutParams as ConstraintLayout.LayoutParams
+                    params.topToBottom = money_worker.id
+                    silver_worker.requestLayout()
                     stone_worker_price.visibility = View.GONE
                     stone_worker_text.visibility = View.GONE
                     stone_worker_btn.visibility = View.GONE
