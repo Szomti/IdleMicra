@@ -280,6 +280,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         fun moneyPage() {
+            money_page.visibility = View.VISIBLE
             loadText()
             sell_materials_btn.setOnClickListener {
                 if(!stoneLocked){
@@ -304,18 +305,18 @@ class MainActivity : AppCompatActivity() {
             page_change.visibility = View.VISIBLE
             change_main_page.setOnClickListener {
                 if(main_page.visibility != View.VISIBLE) {
-                    mainPage()
                     main_page.visibility = View.VISIBLE
                     money_page.visibility = View.GONE
                     skill_page.visibility = View.GONE
+                    mainPage()
                 }
             }
             change_money_page.setOnClickListener {
                 if(money_page.visibility != View.VISIBLE) {
-                    moneyPage()
                     main_page.visibility = View.GONE
                     money_page.visibility = View.VISIBLE
                     skill_page.visibility = View.GONE
+                    moneyPage()
                 }
             }
             change_skill_page.setOnClickListener {
