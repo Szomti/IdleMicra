@@ -76,6 +76,7 @@ class MainActivity : AppCompatActivity() {
         var stonePrice = 1
         var stoneLocked = false
         var stoneWorkerNotEnough = false
+        var stoneUnlocked = true
 
         // Silver
         var silverAmount = 0
@@ -89,6 +90,7 @@ class MainActivity : AppCompatActivity() {
         var silverPrice = 5
         var silverLocked = false
         var silverWorkerNotEnough = false
+        var silverUnlocked = false
 
         // Iron
         var ironAmount = 0
@@ -102,6 +104,7 @@ class MainActivity : AppCompatActivity() {
         var ironPrice = 25
         var ironLocked = false
         var ironWorkerNotEnough = false
+        var ironUnlocked = false
 
         var x : Double? = 0.0
         var y : Double? = 0.0
@@ -134,6 +137,7 @@ class MainActivity : AppCompatActivity() {
             // workers price
             stone_worker_price.text = "Price\n$stoneWorkerPrice"
             silver_worker_price.text = "Price\n$silverWorkerPrice"
+            iron_worker_price.text = "Price\n$ironWorkerPrice"
         }
 
         fun loadText() {
@@ -177,6 +181,12 @@ class MainActivity : AppCompatActivity() {
                 silver_worker_text.visibility = View.GONE
                 silver_worker_btn.visibility = View.GONE
                 silver_worker.visibility = View.GONE
+            }
+            if(ironWorker){
+                iron_worker_price.visibility = View.GONE
+                iron_worker_text.visibility = View.GONE
+                iron_worker_btn.visibility = View.GONE
+                iron_worker.visibility = View.GONE
             }
         }
 
@@ -395,7 +405,7 @@ class MainActivity : AppCompatActivity() {
                     if(!stoneWorkerNotEnough){
                         stoneWorkerNotEnough = true
                         stone_worker_price.text = "Not Enough"
-                        object : CountDownTimer(1500,2000){
+                        object : CountDownTimer(1000,2000){
                             override fun onTick(millisUntilFinished: Long) {
                             }
 
@@ -423,13 +433,38 @@ class MainActivity : AppCompatActivity() {
                     if(!silverWorkerNotEnough){
                         silverWorkerNotEnough = true
                         silver_worker_price.text = "Not Enough"
-                        object : CountDownTimer(1500,2000){
+                        object : CountDownTimer(1000,2000){
                             override fun onTick(millisUntilFinished: Long) {
                             }
 
                             override fun onFinish() {
                                 silver_worker_price.text = "Price\n$silverWorkerPrice"
                                 silverWorkerNotEnough = false
+                            }
+                        }.start()
+                    }
+                }
+            }
+            iron_worker_btn.setOnClickListener {
+                if(moneyAmount>=ironWorkerPrice){
+                    moneyAmount-=ironWorkerPrice
+                    loadText()
+                    ironWorker = true
+                    iron_worker_price.visibility = View.GONE
+                    iron_worker_text.visibility = View.GONE
+                    iron_worker_btn.visibility = View.GONE
+                    iron_worker.visibility = View.GONE
+                }else{
+                    if(!ironWorkerNotEnough){
+                        ironWorkerNotEnough = true
+                        iron_worker_price.text = "Not Enough"
+                        object : CountDownTimer(1000,2000){
+                            override fun onTick(millisUntilFinished: Long) {
+                            }
+
+                            override fun onFinish() {
+                                iron_worker_price.text = "Price\n$ironWorkerPrice"
+                                ironWorkerNotEnough = false
                             }
                         }.start()
                     }
@@ -577,10 +612,15 @@ class MainActivity : AppCompatActivity() {
 //            val params = silver_worker.layoutParams as ConstraintLayout.LayoutParams
 //            params.topToBottom = stone_worker.id
 //            silver_worker.requestLayout()
-            stone_worker_price.visibility = View.VISIBLE
-            stone_worker_text.visibility = View.VISIBLE
-            stone_worker_btn.visibility = View.VISIBLE
-            stone_worker.visibility = View.VISIBLE
+            silver_worker_price.visibility = View.VISIBLE
+            silver_worker_text.visibility = View.VISIBLE
+            silver_worker_btn.visibility = View.VISIBLE
+            silver_worker.visibility = View.VISIBLE
+
+            iron_worker_price.visibility = View.VISIBLE
+            iron_worker_text.visibility = View.VISIBLE
+            iron_worker_btn.visibility = View.VISIBLE
+            iron_worker.visibility = View.VISIBLE
 
             stoneAmount = 0
             main_stone_progress.progress = 0
@@ -619,6 +659,9 @@ class MainActivity : AppCompatActivity() {
                     }
                     Toast.makeText(this, "Iron - State: " + ironWorker.toString(), Toast.LENGTH_SHORT).show()
                 }
+            }
+            test_dev_text.setOnClickListener {
+                moneyAmount += 999999999
             }
             worker_change_btn.setOnClickListener {
                 workerChange = true
