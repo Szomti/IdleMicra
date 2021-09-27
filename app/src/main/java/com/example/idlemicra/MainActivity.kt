@@ -42,6 +42,7 @@ class MainActivity : AppCompatActivity() {
 
         // Main Game
         var gameStart = true
+        var gameOn = false
         var doReset = false
         var resetDone = false
 
@@ -218,10 +219,12 @@ class MainActivity : AppCompatActivity() {
                 money_silver_amount.visibility = View.VISIBLE
                 money_silver_price.visibility = View.VISIBLE
 
-                silver_worker_price.visibility = View.VISIBLE
-                silver_worker_text.visibility = View.VISIBLE
-                silver_worker_btn.visibility = View.VISIBLE
-                silver_worker.visibility = View.VISIBLE
+                if(!silverWorker) {
+                    silver_worker_price.visibility = View.VISIBLE
+                    silver_worker_text.visibility = View.VISIBLE
+                    silver_worker_btn.visibility = View.VISIBLE
+                    silver_worker.visibility = View.VISIBLE
+                }
                 silverFirst = false
             }
             if(ironUnlocked && ironFirst || isLoading && ironUnlocked){
@@ -234,10 +237,12 @@ class MainActivity : AppCompatActivity() {
                 money_iron_amount.visibility = View.VISIBLE
                 money_iron_price.visibility = View.VISIBLE
 
-                iron_worker_price.visibility = View.VISIBLE
-                iron_worker_text.visibility = View.VISIBLE
-                iron_worker_btn.visibility = View.VISIBLE
-                iron_worker.visibility = View.VISIBLE
+                if(!ironWorker) {
+                    iron_worker_price.visibility = View.VISIBLE
+                    iron_worker_text.visibility = View.VISIBLE
+                    iron_worker_btn.visibility = View.VISIBLE
+                    iron_worker.visibility = View.VISIBLE
+                }
                 ironFirst = false
             }
         }
@@ -318,14 +323,16 @@ class MainActivity : AppCompatActivity() {
         val workerGetMaterials = lifecycleScope.launch(Dispatchers.IO) {
             while (isActive) {
                 lifecycleScope.launch {
-                    if (main_stone_progress.progress < stoneProgressMax && stoneWorker && stoneUnlocked) {
-                        main_stone_progress.progress += stoneProgress
-                    }
-                    if (main_silver_progress.progress < silverProgressMax && silverWorker && silverUnlocked) {
-                        main_silver_progress.progress += silverProgress
-                    }
-                    if (main_iron_progress.progress < ironProgressMax && ironWorker && ironUnlocked) {
-                        main_iron_progress.progress += ironProgress
+                    if(gameOn) {
+                        if (main_stone_progress.progress < stoneProgressMax && stoneWorker && stoneUnlocked) {
+                            main_stone_progress.progress += stoneProgress
+                        }
+                        if (main_silver_progress.progress < silverProgressMax && silverWorker && silverUnlocked) {
+                            main_silver_progress.progress += silverProgress
+                        }
+                        if (main_iron_progress.progress < ironProgressMax && ironWorker && ironUnlocked) {
+                            main_iron_progress.progress += ironProgress
+                        }
                     }
                 }
                 delay(25L)
@@ -708,6 +715,7 @@ class MainActivity : AppCompatActivity() {
                                 loading_text.text = "Loading"
                                 loading_continue_text.visibility = View.INVISIBLE
                                 loading_page.setOnClickListener(null)
+                                gameOn = true
                                 cancel()
                             }
                         }
