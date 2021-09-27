@@ -122,9 +122,16 @@ class MainActivity : AppCompatActivity() {
             editor.apply{
                 putInt("MONEY_AMOUNT_KEY", moneyAmount)
 
+                putBoolean("SILVER_FIRST_KEY", silverFirst)
+                putBoolean("IRON_FIRST_KEY", ironFirst)
+
                 putInt("STONE_AMOUNT_KEY", stoneAmount)
                 putInt("SILVER_AMOUNT_KEY", silverAmount)
                 putInt("IRON_AMOUNT_KEY", ironAmount)
+
+                putInt("SILVER_STONE_KEY", silverStoneToGet)
+                putInt("IRON_STONE_KEY", ironStoneToGet)
+                putInt("IRON_SILVER_KEY", ironSilverToGet)
 
                 putBoolean("STONE_WORKER_KEY", stoneWorker)
                 putBoolean("SILVER_WORKER_KEY", silverWorker)
@@ -200,13 +207,55 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        fun unlockedMaterialsCheck(isLoading: Boolean) {
+            if(silverUnlocked && silverFirst || isLoading && silverUnlocked){
+                blocked_main_silver.visibility = View.GONE
+                lock_main_silver.visibility = View.GONE
+                lock_main_silver_text.visibility = View.GONE
+
+                sell_silver_btn.visibility = View.VISIBLE
+                sell_silver.visibility = View.VISIBLE
+                money_silver_amount.visibility = View.VISIBLE
+                money_silver_price.visibility = View.VISIBLE
+
+                silver_worker_price.visibility = View.VISIBLE
+                silver_worker_text.visibility = View.VISIBLE
+                silver_worker_btn.visibility = View.VISIBLE
+                silver_worker.visibility = View.VISIBLE
+                silverFirst = false
+            }
+            if(ironUnlocked && ironFirst || isLoading && ironUnlocked){
+                blocked_main_iron.visibility = View.GONE
+                lock_main_iron.visibility = View.GONE
+                lock_main_iron_text.visibility = View.GONE
+
+                sell_iron_btn.visibility = View.VISIBLE
+                sell_iron.visibility = View.VISIBLE
+                money_iron_amount.visibility = View.VISIBLE
+                money_iron_price.visibility = View.VISIBLE
+
+                iron_worker_price.visibility = View.VISIBLE
+                iron_worker_text.visibility = View.VISIBLE
+                iron_worker_btn.visibility = View.VISIBLE
+                iron_worker.visibility = View.VISIBLE
+                ironFirst = false
+            }
+        }
+
         fun loadData() {
             val sharedPreferences: SharedPreferences = getSharedPreferences("sharedPrefs", MODE_PRIVATE)
             val savedMoneyAmount: Int = sharedPreferences.getInt("MONEY_AMOUNT_KEY", moneyAmount)
 
+            val savedSilverFirst: Boolean = sharedPreferences.getBoolean("SILVER_FIRST_KEY", silverFirst)
+            val savedIronFirst: Boolean = sharedPreferences.getBoolean("IRON_FIRST_KEY", ironFirst)
+
             val savedStoneAmount: Int = sharedPreferences.getInt("STONE_AMOUNT_KEY", stoneAmount)
             val savedSilverAmount: Int = sharedPreferences.getInt("SILVER_AMOUNT_KEY", silverAmount)
             val savedIronAmount: Int = sharedPreferences.getInt("IRON_AMOUNT_KEY", ironAmount)
+
+            val savedSilverStone: Int = sharedPreferences.getInt("SILVER_STONE_KEY", silverStoneToGet)
+            val savedIronStone: Int = sharedPreferences.getInt("IRON_STONE_KEY", ironStoneToGet)
+            val savedIronSilver: Int = sharedPreferences.getInt("IRON_SILVER_KEY", ironSilverToGet)
 
             val savedStoneWorker: Boolean = sharedPreferences.getBoolean("STONE_WORKER_KEY", stoneWorker)
             val savedSilverWorker: Boolean = sharedPreferences.getBoolean("SILVER_WORKER_KEY", silverWorker)
@@ -217,9 +266,16 @@ class MainActivity : AppCompatActivity() {
 
             moneyAmount = savedMoneyAmount
 
+            silverFirst = savedSilverFirst
+            ironFirst = savedIronFirst
+
             stoneAmount = savedStoneAmount
             silverAmount = savedSilverAmount
             ironAmount = savedIronAmount
+
+            silverStoneToGet = savedSilverStone
+            ironStoneToGet = savedIronStone
+            ironSilverToGet = savedIronSilver
 
             stoneWorker = savedStoneWorker
             silverWorker = savedSilverWorker
@@ -230,6 +286,7 @@ class MainActivity : AppCompatActivity() {
 
             setDefaultValues()
             loadWorkers()
+            unlockedMaterialsCheck(true)
             loadText()
             dataLoaded = true
         }
@@ -287,6 +344,7 @@ class MainActivity : AppCompatActivity() {
                         silverAmount += silverExtraction
                         main_silver_progress.progress = 0
                         loadText()
+                        silverAccept = true
                     }
                     if (main_iron_progress.progress >= ironProgressMax && ironAmount <= MAX_VALUE) {
                         ironAmount += ironExtraction
@@ -333,30 +391,7 @@ class MainActivity : AppCompatActivity() {
         val unlockMaterials = lifecycleScope.launch(Dispatchers.IO) {
             while (isActive) {
                 lifecycleScope.launch {
-                    if(silverUnlocked && silverFirst){
-                        sell_silver_btn.visibility = View.VISIBLE
-                        sell_silver.visibility = View.VISIBLE
-                        money_silver_amount.visibility = View.VISIBLE
-                        money_silver_price.visibility = View.VISIBLE
-
-                        silver_worker_price.visibility = View.VISIBLE
-                        silver_worker_text.visibility = View.VISIBLE
-                        silver_worker_btn.visibility = View.VISIBLE
-                        silver_worker.visibility = View.VISIBLE
-                        silverFirst = false
-                    }
-                    if(ironUnlocked && ironFirst){
-                        sell_iron_btn.visibility = View.VISIBLE
-                        sell_iron.visibility = View.VISIBLE
-                        money_iron_amount.visibility = View.VISIBLE
-                        money_iron_price.visibility = View.VISIBLE
-
-                        iron_worker_price.visibility = View.VISIBLE
-                        iron_worker_text.visibility = View.VISIBLE
-                        iron_worker_btn.visibility = View.VISIBLE
-                        iron_worker.visibility = View.VISIBLE
-                        ironFirst = false
-                    }
+                    unlockedMaterialsCheck(false)
                 }
                 delay(50L)
             }
@@ -720,14 +755,22 @@ class MainActivity : AppCompatActivity() {
             main_stone_progress.progress = 0
             stoneWorker = false
             stoneUnlocked = true
+
             silverAmount = 0
             main_silver_progress.progress = 0
             silverWorker = false
             silverUnlocked = false
+            silverFirst = true
+            silverStoneToGet = 50
+
             ironAmount = 0
             main_iron_progress.progress = 0
             ironWorker = false
             ironUnlocked = false
+            ironFirst = true
+            ironStoneToGet = 250
+            ironSilverToGet = 50
+
             saveData()
             loadText()
             resetDone = true
