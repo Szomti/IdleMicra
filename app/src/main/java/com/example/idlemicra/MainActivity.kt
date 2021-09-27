@@ -352,7 +352,7 @@ class MainActivity : AppCompatActivity() {
                         loadText()
                     }
                     if(!silverUnlocked){
-                        if(stoneAccept){
+                        if(stoneAccept && silverStoneToGet<=0){
                             silverStoneToGet-=stoneExtraction
                         }
                         if(silverStoneToGet<=0){
@@ -365,10 +365,10 @@ class MainActivity : AppCompatActivity() {
                         }
                     }
                     if(!ironUnlocked){
-                        if(stoneAccept){
+                        if(stoneAccept && ironStoneToGet<=0){
                             ironStoneToGet-=stoneExtraction
                         }
-                        if(silverAccept){
+                        if(silverAccept && ironSilverToGet<=0){
                             ironSilverToGet-=silverExtraction
                         }
                         if(ironStoneToGet<=0 && ironSilverToGet<=0){
