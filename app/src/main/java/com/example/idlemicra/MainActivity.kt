@@ -85,7 +85,7 @@ class MainActivity : AppCompatActivity() {
         var silverProgress = 50
         var silverBonus = 10
         var silverWorker = false
-        var silverWorkerPrice = 250
+        var silverWorkerPrice = 150
         var silverWorkerFirst = true
         var silverPrice = 5
         var silverLocked = false
@@ -99,7 +99,7 @@ class MainActivity : AppCompatActivity() {
         var ironProgress = 50
         var ironBonus = 10
         var ironWorker = false
-        var ironWorkerPrice = 2500
+        var ironWorkerPrice = 2000
         var ironWorkerFirst = true
         var ironPrice = 25
         var ironLocked = false
