@@ -56,7 +56,6 @@ class MainActivity : AppCompatActivity() {
         var loadingProgressMax = 10000
 
         // Dev
-        var workerChange: Boolean
         var devBonusWorker = 1
         var devCheat = false
         var devBonusMoney = 999999999
@@ -804,29 +803,52 @@ class MainActivity : AppCompatActivity() {
             resetDone = true
         }
 
+        fun devWorkerCheck() {
+            if(worker_change_btn.text == "stone") {
+                if (stoneWorker) {
+                    worker_btn.setTextColor(Color.parseColor("#55EE55"))
+                } else {
+                    worker_btn.setTextColor(Color.parseColor("#EE5555"))
+                }
+            }
+            if(worker_change_btn.text == "silver"){
+                if(silverWorker){
+                    worker_btn.setTextColor(Color.parseColor("#55EE55"))
+                } else {
+                    worker_btn.setTextColor(Color.parseColor("#EE5555"))
+                }
+            }
+            if(worker_change_btn.text == "iron"){
+                if(ironWorker){
+                    worker_btn.setTextColor(Color.parseColor("#55EE55"))
+                } else {
+                    worker_btn.setTextColor(Color.parseColor("#EE5555"))
+                }
+            }
+        }
+
         fun devPage() {
+            devWorkerCheck()
             worker_btn.setOnClickListener {
                 if(worker_change_btn.text == "stone") {
                     stoneWorker = !stoneWorker
                     if (!stoneWorkerFirst && stoneWorker) {
                         stoneWorkerFirst = true
                     }
-                    Toast.makeText(this, "Stone - State: " + stoneWorker.toString(), Toast.LENGTH_SHORT).show()
                 }
                 if(worker_change_btn.text == "silver") {
                     silverWorker = !silverWorker
                     if (!silverWorkerFirst && silverWorker) {
                         silverWorkerFirst = true
                     }
-                    Toast.makeText(this, "Silver - State: " + silverWorker.toString(), Toast.LENGTH_SHORT).show()
                 }
                 if(worker_change_btn.text == "iron") {
                     ironWorker = !ironWorker
                     if (!ironWorkerFirst && ironWorker) {
                         ironWorkerFirst = true
                     }
-                    Toast.makeText(this, "Iron - State: " + ironWorker.toString(), Toast.LENGTH_SHORT).show()
                 }
+                devWorkerCheck()
             }
             test_dev_text.setOnClickListener {
                 when(devCheat) {
@@ -854,22 +876,21 @@ class MainActivity : AppCompatActivity() {
                 }
             }
             worker_change_btn.setOnClickListener {
-                workerChange = true
-                if(worker_change_btn.text == "stone" && workerChange){
-                    worker_btn.text = "silverWorker"
-                    worker_change_btn.text = "silver"
-                    workerChange = false
+                when(worker_change_btn.text){
+                    "stone" -> {
+                        worker_btn.text = "silverWorker"
+                        worker_change_btn.text = "silver"
+                    }
+                    "silver" -> {
+                        worker_btn.text = "ironWorker"
+                        worker_change_btn.text = "iron"
+                    }
+                    "iron" -> {
+                        worker_btn.text = "stoneWorker"
+                        worker_change_btn.text = "stone"
+                    }
                 }
-                if(worker_change_btn.text == "silver" && workerChange){
-                    worker_btn.text = "ironWorker"
-                    worker_change_btn.text = "iron"
-                    workerChange = false
-                }
-                if(worker_change_btn.text == "iron" && workerChange){
-                    worker_btn.text = "stoneWorker"
-                    worker_change_btn.text = "stone"
-                    workerChange = false
-                }
+                devWorkerCheck()
             }
             reset_btn.setOnClickListener {
                 if(doReset){
@@ -896,20 +917,13 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        val alwaysCheck = lifecycleScope.launch(Dispatchers.IO) {
-            while (isActive) {
-                lifecycleScope.launch {
-                    if(!doReset) {
-                        if (dev_switch.isChecked) {
-                            dev_page.visibility = View.VISIBLE
-                            dev_switch.text = "Dev"
-                        } else {
-                            dev_switch.text = "Player"
-                            dev_page.visibility = View.GONE
-                        }
-                    }
-                }
-                delay(200L)
+        dev_switch.setOnClickListener {
+            if (dev_switch.isChecked) {
+                dev_page.visibility = View.VISIBLE
+                dev_switch.text = "Dev"
+            } else {
+                dev_switch.text = "Player"
+                dev_page.visibility = View.GONE
             }
         }
 
