@@ -57,6 +57,9 @@ class MainActivity : AppCompatActivity() {
 
         // Dev
         var workerChange: Boolean
+        var devBonusWorker = 1
+        var devCheat = false
+        var devBonusMoney = 999999999
 
         // Money Page
         var moneyAmount = 0
@@ -336,13 +339,13 @@ class MainActivity : AppCompatActivity() {
                 lifecycleScope.launch {
                     if(gameOn) {
                         if (main_stone_progress.progress < stoneProgressMax && stoneWorker && stoneUnlocked) {
-                            main_stone_progress.progress += stoneProgress
+                            main_stone_progress.progress += stoneProgress*devBonusWorker
                         }
                         if (main_silver_progress.progress < silverProgressMax && silverWorker && silverUnlocked) {
-                            main_silver_progress.progress += silverProgress
+                            main_silver_progress.progress += silverProgress*devBonusWorker
                         }
                         if (main_iron_progress.progress < ironProgressMax && ironWorker && ironUnlocked) {
-                            main_iron_progress.progress += ironProgress
+                            main_iron_progress.progress += ironProgress*devBonusWorker
                         }
                     }
                 }
@@ -743,33 +746,6 @@ class MainActivity : AppCompatActivity() {
             dev_switch.isChecked = false
 
             moneyAmount = 0
-
-            stone_worker_price.visibility = View.VISIBLE
-            stone_worker_text.visibility = View.VISIBLE
-            stone_worker_btn.visibility = View.VISIBLE
-            stone_worker.visibility = View.VISIBLE
-
-//            val params = silver_worker.layoutParams as ConstraintLayout.LayoutParams
-//            params.topToBottom = stone_worker.id
-//            silver_worker.requestLayout()
-            silver_worker_price.visibility = View.GONE
-            silver_worker_text.visibility = View.GONE
-            silver_worker_btn.visibility = View.GONE
-            silver_worker.visibility = View.GONE
-
-            iron_worker_price.visibility = View.GONE
-            iron_worker_text.visibility = View.GONE
-            iron_worker_btn.visibility = View.GONE
-            iron_worker.visibility = View.GONE
-
-            blocked_main_silver.visibility = View.VISIBLE
-            lock_main_silver.visibility = View.VISIBLE
-            lock_main_silver_text.visibility = View.VISIBLE
-
-            blocked_main_iron.visibility = View.VISIBLE
-            lock_main_iron.visibility = View.VISIBLE
-            lock_main_iron_text.visibility = View.VISIBLE
-
             stoneAmount = 0
             main_stone_progress.progress = 0
             stoneWorker = false
@@ -790,7 +766,40 @@ class MainActivity : AppCompatActivity() {
             ironStoneToGet = 250
             ironSilverToGet = 50
 
+            stone_worker_price.visibility = View.VISIBLE
+            stone_worker_text.visibility = View.VISIBLE
+            stone_worker_btn.visibility = View.VISIBLE
+            stone_worker.visibility = View.VISIBLE
+
+            sell_silver_btn.visibility = View.GONE
+            sell_silver.visibility = View.GONE
+            money_silver_amount.visibility = View.GONE
+            money_silver_price.visibility = View.GONE
+
+//            val params = silver_worker.layoutParams as ConstraintLayout.LayoutParams
+//            params.topToBottom = stone_worker.id
+//            silver_worker.requestLayout()
+
+            iron_worker_price.visibility = View.GONE
+            iron_worker_text.visibility = View.GONE
+            iron_worker_btn.visibility = View.GONE
+            iron_worker.visibility = View.GONE
+
+            sell_iron_btn.visibility = View.GONE
+            sell_iron.visibility = View.GONE
+            money_iron_amount.visibility = View.GONE
+            money_iron_price.visibility = View.GONE
+
+            blocked_main_silver.visibility = View.VISIBLE
+            lock_main_silver.visibility = View.VISIBLE
+            lock_main_silver_text.visibility = View.VISIBLE
+
+            blocked_main_iron.visibility = View.VISIBLE
+            lock_main_iron.visibility = View.VISIBLE
+            lock_main_iron_text.visibility = View.VISIBLE
+
             saveData()
+            loadData()
             loadText()
             resetDone = true
         }
@@ -820,7 +829,29 @@ class MainActivity : AppCompatActivity() {
                 }
             }
             test_dev_text.setOnClickListener {
-                moneyAmount += 999999999
+                when(devCheat) {
+                    false -> {
+                        if((moneyAmount+devBonusMoney)<MAX_VALUE && (moneyAmount+devBonusMoney)>=0) {
+                            moneyAmount += devBonusMoney
+                        }
+                        stoneBonus = 1000
+                        silverBonus = 5000
+                        ironBonus = 10000
+                        devBonusWorker = 100
+                        devCheat = true
+                        Toast.makeText(this, "devCheat On", Toast.LENGTH_SHORT).show()
+                        loadText()
+                    }
+                    true -> {
+                        stoneBonus = 10
+                        silverBonus = 10
+                        ironBonus = 10
+                        devBonusWorker = 1
+                        devCheat = false
+                        Toast.makeText(this, "devCheat Off", Toast.LENGTH_SHORT).show()
+                        loadText()
+                    }
+                }
             }
             worker_change_btn.setOnClickListener {
                 workerChange = true
