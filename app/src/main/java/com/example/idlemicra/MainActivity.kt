@@ -56,6 +56,7 @@ class MainActivity : AppCompatActivity() {
         var loadingProgressMax = 10000
 
         // Dev
+        var devActualWorker = "stone"
         var devBonusWorker = 1
         var devCheat = false
         var devBonusMoney = 999999999
@@ -804,21 +805,21 @@ class MainActivity : AppCompatActivity() {
         }
 
         fun devWorkerCheck() {
-            if(worker_change_btn.text == "stone") {
+            if(devActualWorker == "stone") {
                 if (stoneWorker) {
                     worker_btn.setTextColor(Color.parseColor("#55EE55"))
                 } else {
                     worker_btn.setTextColor(Color.parseColor("#EE5555"))
                 }
             }
-            if(worker_change_btn.text == "silver"){
+            if(devActualWorker == "silver"){
                 if(silverWorker){
                     worker_btn.setTextColor(Color.parseColor("#55EE55"))
                 } else {
                     worker_btn.setTextColor(Color.parseColor("#EE5555"))
                 }
             }
-            if(worker_change_btn.text == "iron"){
+            if(devActualWorker == "iron"){
                 if(ironWorker){
                     worker_btn.setTextColor(Color.parseColor("#55EE55"))
                 } else {
@@ -830,19 +831,19 @@ class MainActivity : AppCompatActivity() {
         fun devPage() {
             devWorkerCheck()
             worker_btn.setOnClickListener {
-                if(worker_change_btn.text == "stone") {
+                if(devActualWorker == "stone") {
                     stoneWorker = !stoneWorker
                     if (!stoneWorkerFirst && stoneWorker) {
                         stoneWorkerFirst = true
                     }
                 }
-                if(worker_change_btn.text == "silver") {
+                if(devActualWorker == "silver") {
                     silverWorker = !silverWorker
                     if (!silverWorkerFirst && silverWorker) {
                         silverWorkerFirst = true
                     }
                 }
-                if(worker_change_btn.text == "iron") {
+                if(devActualWorker == "iron") {
                     ironWorker = !ironWorker
                     if (!ironWorkerFirst && ironWorker) {
                         ironWorkerFirst = true
@@ -875,21 +876,34 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
             }
-            worker_change_btn.setOnClickListener {
-                when(worker_change_btn.text){
+            next_worker_change_btn.setOnClickListener {
+                when(devActualWorker){
                     "stone" -> {
-                        worker_btn.text = "silverWorker"
-                        worker_change_btn.text = "silver"
+                        devActualWorker = "silver"
                     }
                     "silver" -> {
-                        worker_btn.text = "ironWorker"
-                        worker_change_btn.text = "iron"
+                        devActualWorker = "iron"
                     }
                     "iron" -> {
-                        worker_btn.text = "stoneWorker"
-                        worker_change_btn.text = "stone"
+                        devActualWorker = "stone"
                     }
                 }
+                worker_btn.text = "$devActualWorker\nworker"
+                devWorkerCheck()
+            }
+            previous_worker_change_btn.setOnClickListener {
+                when(devActualWorker){
+                    "stone" -> {
+                        devActualWorker = "iron"
+                    }
+                    "silver" -> {
+                        devActualWorker = "stone"
+                    }
+                    "iron" -> {
+                        devActualWorker = "silver"
+                    }
+                }
+                worker_btn.text = "$devActualWorker\nworker"
                 devWorkerCheck()
             }
             reset_btn.setOnClickListener {
